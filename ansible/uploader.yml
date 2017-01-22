@@ -1,0 +1,32 @@
+---
+- hosts: all
+  tasks:
+    - block:
+      - name: Run the equivalent of "apt-get update" as a separate step
+        apt: update_cache=yes
+      - name: Install Nginx with Upload module
+        script: scripts/install_nginx_uploader.sh
+        args:
+          creates: /opt/nginx/sbin/nginx
+      - name: Install Nginx service
+        copy: src=config/nginx.service dest=/lib/systemd/system/nginx.service
+      - name: Enable Nginx service
+        service: name=nginx enabled=yes state=started
+      - name: Install PHP 7.0
+        include: php7.yml
+      - name: Replaces Nginx conf file
+        template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
+        notify: restart_nginx
+      - name: PHP Info file
+        copy: src=html/info.php dest=/opt/nginx/html/info.php
+      become: yes
+      become_method: sudo
+  handlers:
+    - name: restart_nginx
+      service: name=nginx enabled=yes state=restarted
+      become: yes
+      become_method: sudo
+    - name: restart_php_fpm
+      service: name=php7.0-fpm enabled=yes state=restarted
+      become: yes
+      become_method: sudo

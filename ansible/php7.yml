@@ -1,0 +1,11 @@
+---
+- name: Install PHP 7.0
+  apt: name=php-fpm state=present
+- name: Patch php-fpm config (1)
+  lineinfile: dest=/etc/php/7.0/fpm/pool.d/www.conf regexp='^listen = \/run\/php\/php7\.0-fpm\.sock' state=absent
+- name: Patch php-fpm config (2)
+  lineinfile: dest=/etc/php/7.0/fpm/pool.d/www.conf line='listen = 9000' state=present
+  notify: restart_php_fpm
+- name: Patch PHP.ini
+  lineinfile: dest=/etc/php/7.0/fpm/php.ini regexp='^cgi\.fix_pathinfo=0' line='cgi.fix_pathinfo=0'
+  notify: [restart_nginx, restart_php_fpm]

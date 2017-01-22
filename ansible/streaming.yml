@@ -1,0 +1,27 @@
+---
+- hosts: all
+  vars:
+    youtube_stream_key: z5ra-kq20-481u-5c
+    facebook_live_stream_key: 651054325077420?ds=1&s_l=1&a=ATgeo8nle9q3-xNt
+  tasks:
+    - block:
+      - name: Run the equivalent of "apt-get update" as a separate step
+        apt: update_cache=yes
+      - name: Install Nginx with RTMP module
+        script: scripts/install_nginx_streaming.sh
+        args:
+          creates: /opt/nginx/sbin/nginx
+      - name: Install Nginx service
+        copy: src=config/nginx.service dest=/lib/systemd/system/nginx.service
+      - name: Enable Nginx service
+        service: name=nginx enabled=yes state=started
+      - name: Replaces Nginx conf file
+        template: src=config/nginx_streaming.conf.j2 dest=/opt/nginx/conf/nginx.conf
+        notify: restart_nginx
+      become: yes
+      become_method: sudo
+  handlers:
+    - name: restart_nginx
+      service: name=nginx enabled=yes state=restarted
+      become: yes
+      become_method: sudo
