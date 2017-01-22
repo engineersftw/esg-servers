@@ -32,8 +32,6 @@ http {
 
     #gzip  on;
 
-    upload_progress uploads 1m;
-
     server {
         client_max_body_size 4G;
         client_body_buffer_size 1024k;
@@ -67,9 +65,6 @@ http {
 
             upload_pass_form_field "^submit$|^description$";
             upload_cleanup 400 404 499 500-505;
-
-            # upload_state_store /var/tmp/fuploads/state ;
-            # track_uploads uploads 5s;
         }
 
         error_page  404              /404.html;
