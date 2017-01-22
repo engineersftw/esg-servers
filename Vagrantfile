@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "uploader" do |uploader|
     uploader.vm.network "private_network", ip: "192.168.33.20"
-    uploader.vm.synced_folder "html", "/var/html"
+    uploader.vm.synced_folder "html2", "/var/html"
     uploader.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/uploader.yml"
       ansible.install  = true
