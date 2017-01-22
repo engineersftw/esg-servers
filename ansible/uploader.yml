@@ -11,14 +11,16 @@
       - name: Install Nginx service
         copy: src=config/nginx.service dest=/lib/systemd/system/nginx.service
       - name: Enable Nginx service
-        service: name=nginx enabled=yes state=started
+        service: name=nginx enabled=yes
       - name: Install PHP 7.0
         include: php7.yml
       - name: Replaces Nginx conf file
         template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
-      - name: PHP Info file
-        copy: src=html/info.php dest=/opt/nginx/html/info.php
+      - name: Prepares upload folders
+        file: dest=/tmp/{{ item }} state=directory mode=0777
+        with_flattened:
+          - "[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]"
       become: yes
       become_method: sudo
   handlers:

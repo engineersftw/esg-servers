@@ -32,7 +32,11 @@ http {
 
     #gzip  on;
 
+    upload_progress uploads 1m;
+
     server {
+        client_max_body_size 4G;
+        client_body_buffer_size 1024k;
         listen       80;
         server_name  localhost;
 
@@ -40,12 +44,38 @@ http {
 
         #access_log  logs/host.access.log  main;
 
+        root /var/html;
+        index  index.php index.html index.htm;
+
         location / {
-            root   html;
-            index  index.php index.html index.htm;
+            #try_files $uri $uri/ /404.html;
+            sendfile off;
         }
 
-        #error_page  404              /404.html;
+        location /upload {
+            upload_pass  /test.php;
+
+            upload_store /tmp 1;
+            upload_store_access user:r;
+
+            upload_set_form_field "${upload_field_name}_name" $upload_file_name;
+            upload_set_form_field "${upload_field_name}_content_type" $upload_content_type;
+            upload_set_form_field "${upload_field_name}_path" $upload_tmp_path;
+
+            upload_aggregate_form_field "${upload_field_name}_md5" $upload_file_md5;
+            upload_aggregate_form_field "${upload_field_name}_size" $upload_file_size;
+
+            upload_pass_form_field "^submit$|^description$";
+            upload_cleanup 400 404 499 500-505;
+
+            # upload_state_store /var/tmp/fuploads/state ;
+            # track_uploads uploads 5s;
+        }
+
+        error_page  404              /404.html;
+        location = /404.html {
+            root   html;
+        }
 
         # redirect server error pages to the static page /50x.html
         #
@@ -53,12 +83,6 @@ http {
         location = /50x.html {
             root   html;
         }
-
-        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
-        #
-        #location ~ \.php$ {
-        #    proxy_pass   http://127.0.0.1;
-        #}
 
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
@@ -77,41 +101,4 @@ http {
             deny  all;
         }
     }
-
-
-    # another virtual host using mix of IP-, name-, and port-based configuration
-    #
-    #server {
-    #    listen       8000;
-    #    listen       somename:8080;
-    #    server_name  somename  alias  another.alias;
-
-    #    location / {
-    #        root   html;
-    #        index  index.html index.htm;
-    #    }
-    #}
-
-
-    # HTTPS server
-    #
-    #server {
-    #    listen       443 ssl;
-    #    server_name  localhost;
-
-    #    ssl_certificate      cert.pem;
-    #    ssl_certificate_key  cert.key;
-
-    #    ssl_session_cache    shared:SSL:1m;
-    #    ssl_session_timeout  5m;
-
-    #    ssl_ciphers  HIGH:!aNULL:!MD5;
-    #    ssl_prefer_server_ciphers  on;
-
-    #    location / {
-    #        root   html;
-    #        index  index.html index.htm;
-    #    }
-    #}
-
 }
