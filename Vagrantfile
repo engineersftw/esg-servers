@@ -14,6 +14,14 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "ubuntu/xenial64"
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+      type: :nfs,
+      mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
+    }
+  end
+
   config.vm.define "streaming" do |streaming|
     streaming.vm.network "private_network", ip: "192.168.33.10"
     streaming.vm.provision "ansible_local" do |ansible|
