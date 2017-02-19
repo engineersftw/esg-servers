@@ -18,6 +18,8 @@
         include: php7.yml
       - name: Install Ruby
         include: ruby.yml
+      - name: Install Redis
+        include: redis.yml
       - name: Replaces Nginx conf file
         template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
