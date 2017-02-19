@@ -1,0 +1,39 @@
+---
+- name: Install Ruby Dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - git-core
+    - curl 
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - libffi-dev
+    - nodejs
+- name: Install rbenv
+  script: scripts/install_rbenv.sh
+  args:
+    creates: /root/.rbenv/plugins/ruby-build
+- name: Installs Ruby 2.4.0
+  shell: . /root/.bashrc && rbenv install 2.4.0 && rbenv global 2.4.0
+  args:
+    creates: /root/.rbenv/versions/2.4.0
+- name: Installs Bundler
+  shell: . /root/.bashrc && gem install bundler
+  args:
+    creates: /root/.rbenv/shims/bundler
+- name: Installs Passenger
+  shell: . /root/.bashrc && gem install passenger
+  args:
+    creates: /root/.rbenv/shims/passenger
+- name: Get Passenger Root
+  shell: . /root/.bashrc && passenger-config --root
+  registers: passenger_root
+  

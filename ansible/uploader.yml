@@ -16,6 +16,8 @@
         service: name=nginx enabled=yes
       - name: Install PHP 7.0
         include: php7.yml
+      - name: Install Ruby
+        include: ruby.yml
       - name: Replaces Nginx conf file
         template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
