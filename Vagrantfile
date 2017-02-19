@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "uploader" do |uploader|
     uploader.vm.network "private_network", ip: "192.168.33.20"
     uploader.vm.synced_folder "html", "/var/html"
+    uploader.vm.synced_folder "video_uploader", "/srv/apps/video_uploader"
     uploader.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/uploader.yml"
       ansible.install  = true
@@ -68,13 +69,13 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    # vb.gui = true
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "2056"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.

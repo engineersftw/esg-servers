@@ -19,9 +19,8 @@ fi
 tar -zxvf nginx-1.11.8.tar.gz
 unzip nginx-upload-module.zip
 
-cd nginx-1.11.8
-
-sudo ./configure --prefix=/opt/nginx --with-http_ssl_module --add-module=../nginx-upload-module-2.2
-
-sudo make
-sudo make install
+# cd nginx-1.11.8
+# sudo ./configure --prefix=/opt/nginx --with-http_ssl_module --add-module=../nginx-upload-module-2.2
+# sudo ./configure --prefix=/opt/nginx --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_gzip_static_module --with-http_stub_status_module --with-http_addition_module --with-cc-opt=-Wno-error --with-ld-opt='' --add-module=/root/.rbenv/versions/2.4.0/lib/ruby/gems/2.4.0/gems/passenger-5.1.2/src/nginx_module --add-module=../nginx-upload-module-2.2
+# sudo make
+# sudo make install

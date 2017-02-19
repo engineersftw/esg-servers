@@ -4,4 +4,4 @@
   with_items:
     - redis-server
 - name: Enable Redis service
-  service: name=redis-server enabled=yes state=restarted
+  service: name=redis-server enabled=yes state=started

@@ -1,25 +1,27 @@
 ---
 - hosts: all
+  vars:
+    app_root: /srv/apps/video_uploader
+    document_root: "{{ app_root }}/public"
+    rails_secret_key: a2b4690675fe697033d0ae0f1a2c56bb060d950eac1a9567ad377966c7b85393b426e4c383f6a74c4dddef9d1481c608b7b5a87af4dfa11e792a3e61ab52d00
   tasks:
     - block:
       - name: Run the equivalent of "apt-get update" as a separate step
         apt: update_cache=yes
       - name: Copy working files
         copy: src=working dest=/root/
-      - name: Install Nginx with Upload module
+      - name: Copy Nginx source with Upload module
         script: scripts/install_nginx_uploader.sh
         args:
-          creates: /opt/nginx/sbin/nginx
+          creates: /root/working/nginx-1.11.8
+      - name: Install Ruby
+        include: ruby.yml
+      - name: Install Passenger
+        include: passenger.yml
       - name: Install Nginx service
         copy: src=config/nginx.service dest=/lib/systemd/system/nginx.service
       - name: Enable Nginx service
-        service: name=nginx enabled=yes
-      - name: Install PHP 7.0
-        include: php7.yml
-      - name: Install Ruby
-        include: ruby.yml
-      - name: Install Redis
-        include: redis.yml
+        service: name=nginx enabled=yes 
       - name: Replaces Nginx conf file
         template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
@@ -28,14 +30,12 @@
         with_items: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
       - name: Prepares working folder
         file: dest=/var/esg-videos state=directory mode=0777
+      - name: Project Bundle Install
+        shell: . /root/.bashrc && cd {{ app_root }} && bundle install --jobs=4 --retry=3
       become: yes
       become_method: sudo
   handlers:
     - name: restart_nginx
       service: name=nginx enabled=yes state=restarted
-      become: yes
-      become_method: sudo
-    - name: restart_php_fpm
-      service: name=php7.0-fpm enabled=yes state=restarted
       become: yes
       become_method: sudo

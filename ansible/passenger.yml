@@ -1,0 +1,14 @@
+---
+- name: Installs Passenger
+  shell: . /root/.bashrc && gem install passenger
+  args:
+    creates: /root/.rbenv/shims/passenger
+- name: Prep /root permission
+  file: path=/root state=directory mode=0701
+- name: Get Passenger Root
+  shell: . /root/.bashrc && passenger-config --root
+  register: passenger_root
+- name: Install Nginx Module & compile Nginx
+  shell: . /root/.bashrc && passenger-install-nginx-module --auto --prefix=/opt/nginx --nginx-source-dir=/root/working/nginx-1.11.8 --extra-configure-flags=--add-module=../nginx-upload-module-2.2 --languages ruby
+  args:
+    creates: /opt/nginx/sbin/nginx

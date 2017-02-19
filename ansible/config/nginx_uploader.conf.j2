@@ -18,6 +18,14 @@ http {
     include       mime.types;
     default_type  application/octet-stream;
 
+    passenger_root {{ passenger_root.stdout }};
+    passenger_ruby {{ ruby_executable.stdout }};
+
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
     #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
     #                  '$status $body_bytes_sent "$http_referer" '
     #                  '"$http_user_agent" "$http_x_forwarded_for"';
@@ -37,12 +45,15 @@ http {
         client_body_buffer_size 1024k;
         listen       80;
         server_name  localhost;
+        passenger_enabled on;
+
+        passenger_env_var SECRET_KEY_BASE {{ rails_secret_key }};
 
         #charset koi8-r;
 
         #access_log  logs/host.access.log  main;
 
-        root /var/html;
+        root {{ document_root }};
         index  index.php index.html index.htm;
 
         location / {
