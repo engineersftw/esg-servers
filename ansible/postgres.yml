@@ -1,0 +1,7 @@
+---
+- name: Install Postgres
+  apt: name={{ item }} state=present
+  with_items:
+    - postgresql
+    - postgresql-contrib
+    - libpq-dev
