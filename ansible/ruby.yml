@@ -35,5 +35,5 @@
     creates: /root/.rbenv/shims/passenger
 - name: Get Passenger Root
   shell: . /root/.bashrc && passenger-config --root
-  registers: passenger_root
+  register: passenger_root
   
