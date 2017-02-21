@@ -12,14 +12,9 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/xenial64"
 
-  if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.scope = :box
-    config.cache.synced_folder_opts = {
-      type: :nfs,
-      mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
-    }
+  if Vagrant.has_plugin?("vagrant-env")
+    config.env.enable
   end
 
   config.vm.define "streaming" do |streaming|
@@ -69,12 +64,33 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb, override|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
+    override.vm.box = 'ubuntu/xenial64'
   
     # Customize the amount of memory on the VM:
     vb.memory = "2056"
+
+    if Vagrant.has_plugin?("vagrant-cachier")
+      override.cache.scope = :box
+      override.cache.synced_folder_opts = {
+        type: :nfs,
+        mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
+      }
+    end
+  end
+
+  config.vm.provider :linode do |provider, override|
+    override.ssh.username = 'esgadmin'
+    override.ssh.private_key_path = '~/.ssh/id_rsa'
+    override.vm.box = 'linode/ubuntu1404'
+
+    provider.api_key = ENV['LINODE_API_TOKEN']
+    provider.distribution = 'Ubuntu 16.04 LTS'
+    provider.datacenter = 'singapore'
+    provider.plan = 'Linode 2048'
+    provider.label = 'vagrant-test'
   end
   #
   # View the documentation for the provider you are using for more
