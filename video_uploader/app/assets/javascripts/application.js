@@ -12,8 +12,46 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require fileupload/jquery.ui.widget
+//= require fileupload/jquery.iframe-transport
+//= require fileupload/jquery.fileupload
 //= require_tree .
 
-$(document).ready(function(){
+$(document).ready(function() {
     $('.collapsible').collapsible();
+});
+
+$(function() {
+    $('.presentation_upload_form').fileupload({
+        dataType: 'json',
+        replaceFileInput: false,
+        url: '/upload_presentation',
+        add: function (e, data) {
+            $(this).find('button').removeClass('disabled');
+            $(this).find('.upload-btn').click(function (e) {
+                e.preventDefault();
+                data.submit();
+            });
+        },
+        progressall: function(e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $(this).find('.upload-progress-row').show();
+            $(this).find('.determinate').css(
+                'width',
+                progress + '%'
+            );
+        },
+        always: function (e, data) {
+            $(this).find('.upload-progress-row').hide();
+        },
+        fail: function (e, data) {
+            Materialize.toast('Unable to upload file.', 4000);
+            $(this).find('.file-path').addClass('invalid');
+        },
+        done: function (e, data) {
+            Materialize.toast('Upload finished.', 4000);
+            $(this).find('button').addClass('disabled');
+            $(this).find('.file-upload-row').hide();
+        }
+    });
 });

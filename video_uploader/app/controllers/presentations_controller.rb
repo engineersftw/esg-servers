@@ -9,8 +9,10 @@ class PresentationsController < ApplicationController
     saved_file_path, md5_filename = move_uploaded_file(file_params)
 
     if saved_file_path.present? && File.exist?(saved_file_path)
+      @presentation.update(status: 'uploaded')
+
       Rails.logger.info "Adding ProcessVideoWorker for #{saved_file_path}"
-      job_id = ProcessVideoWorker.perform_async(@presentation.title, @presentation.description, md5_filename)
+      job_id = ProcessVideoWorker.perform_async(@presentation.id, md5_filename)
     end
 
     render json: {status: 'success', file: saved_file_path, new_queue: job_id}

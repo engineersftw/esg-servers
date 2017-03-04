@@ -1,8 +1,9 @@
 .col.s12.presentation.card
   .card-content
-    =form_tag('/upload_presentation', method: 'post', multipart: true) do
+    =form_tag('/upload_presentation', method: 'post', multipart: true, id: "presentation_#{presentation.id}", class:'presentation_upload_form' ) do
       input (type="hidden" name="presentation_id" value=presentation.id)
       span.card-title= presentation.title
+
       p
         strong= "Date: #{presentation.presented_at}"
       p
@@ -16,21 +17,24 @@
           .collapsible-body
             =simple_format presentation.description
 
-        - if presentation.status != 'uploaded'
+      - if presentation.status == 'pending'
+        .row.file-upload-row
+          .col.s9
+            .file-field.input-field
+              .btn
+                span Video File
+              input(type="file" name="file" id="file_#{presentation.id}")
 
-      .row
-        .col.s10
-          .file-field.input-field
-            .btn
-              span Video File
-            input(type="file" name="file")
+              .file-path-wrapper
+                input.file-path.validate(type="text")
 
-            .file-path-wrapper
-              input.file-path.validate(type="text")
+          .col.s3
+            .input-field
+              button.btn-large.waves-effect.waves-light.upload-btn.disabled[type="submit" name="action"]
+                | Upload
+                i.material-icons.right
+                  | send
 
-        .col.s2
-          .input-field
-            button.btn-large.waves-effect.waves-light[type="submit" name="action"]
-              | Upload
-              i.material-icons.right
-                | send
+          .col.s12.upload-progress-row(style="display:none;")
+            .progress
+              .determinate(style="width: 0%")
