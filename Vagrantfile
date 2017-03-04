@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
     override.vm.box = 'ubuntu/xenial64'
   
     # Customize the amount of memory on the VM:
-    vb.memory = "2056"
+    vb.memory = "4096"
 
     if Vagrant.has_plugin?("vagrant-cachier")
       override.cache.scope = :box
