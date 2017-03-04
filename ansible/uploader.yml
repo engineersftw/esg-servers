@@ -3,6 +3,7 @@
   vars:
     app_root: /srv/apps/video_uploader
     document_root: "{{ app_root }}/public"
+    upload_folder: "/video_uploads"
     rails_secret_key: a2b4690675fe697033d0ae0f1a2c56bb060d950eac1a9567ad377966c7b85393b426e4c383f6a74c4dddef9d1481c608b7b5a87af4dfa11e792a3e61ab52d00
   tasks:
     - block:
@@ -14,6 +15,8 @@
         script: scripts/install_nginx_uploader.sh
         args:
           creates: /root/working/nginx-1.11.8
+      - name: Install Redis
+        include: redis.yml
       - name: Install Ruby
         include: ruby.yml
       - name: Install Passenger
@@ -25,9 +28,13 @@
       - name: Replaces Nginx conf file
         template: src=config/nginx_uploader.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
+      - name: Prepares main upload folder
+        file: dest={{ upload_folder }} state=directory mode=0777
       - name: Prepares upload folders
-        file: dest=/tmp/{{ item }} state=directory mode=0777
+        file: dest={{ upload_folder }}/{{ item }} state=directory mode=0777
         with_items: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+      - name: Copy multinorm bash script
+        copy: src=scripts/multinorm.sh dest={{ upload_folder }}/multinorm.sh
       - name: Prepares working folder
         file: dest=/var/esg-videos state=directory mode=0777
       - name: Project Bundle Install

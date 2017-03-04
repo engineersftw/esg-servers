@@ -48,6 +48,7 @@ http {
         passenger_enabled on;
 
         passenger_env_var SECRET_KEY_BASE {{ rails_secret_key }};
+        passenger_env_var UPLOAD_FOLDER {{ upload_folder }};
 
         #charset koi8-r;
 
@@ -61,20 +62,19 @@ http {
             sendfile off;
         }
 
-        location /upload {
-            upload_pass  /test.php;
+        location /upload_presentation {
+            upload_pass  /presentations;
 
-            upload_store /tmp 1;
-            upload_store_access user:r;
+            upload_store {{ upload_folder }} 1;
+            upload_store_access user:rw group:rw all:r;
 
-            upload_set_form_field "${upload_field_name}_name" $upload_file_name;
-            upload_set_form_field "${upload_field_name}_content_type" $upload_content_type;
-            upload_set_form_field "${upload_field_name}_path" $upload_tmp_path;
+            set $upload_field_name "file";
+            upload_set_form_field $upload_field_name[original_filename] "$upload_file_name";
+            upload_set_form_field $upload_field_name[tempfile] "$upload_tmp_path";
+            upload_set_form_field $upload_field_name[content_type] "$upload_content_type";
+            upload_aggregate_form_field $upload_field_name[size] "$upload_file_size";
 
-            upload_aggregate_form_field "${upload_field_name}_md5" $upload_file_md5;
-            upload_aggregate_form_field "${upload_field_name}_size" $upload_file_size;
-
-            upload_pass_form_field "^submit$|^description$";
+            upload_pass_form_field "^token$|^authenticity_token$|^submit$|^presentation_id$";
             upload_cleanup 400 404 499 500-505;
         }
 
