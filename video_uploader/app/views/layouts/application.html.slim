@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Engineers.SG Video Uploader
+    = csrf_meta_tags
+    link[href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"]
+    link[rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css"]
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    = stylesheet_link_tag 'application', media: 'all'
+  body
+    nav
+      .nav-wrapper
+        a.brand-logo[href="#"] Engineers.SG - FOSSASIA Video Uploader
+
+    .container
+      == yield
+
+    = javascript_include_tag 'application'
+    script[src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"]

@@ -105,6 +105,30 @@ class YoutubeService
     )
 
     videos_insert_response.resumable_upload.send_all(api_client)
+
+    videos_insert_response
+  end
+
+  def add_to_playlist(options={})
+    body = {
+        snippet: {
+            playlistId: options[:playlist_id],
+            resourceId: {
+                kind: 'youtube#video',
+                videoId: options[:video_id]
+            }
+        }
+    }
+
+    playlist_item_insert_response = api_client.execute!(
+        api_method: youtube.playlist_items.insert,
+        body_object: body,
+        parameters: {
+            part: body.keys.join(',')
+        }
+    )
+
+    playlist_item_insert_response
   end
 
   private

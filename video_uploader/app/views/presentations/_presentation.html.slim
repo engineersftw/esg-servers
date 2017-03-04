@@ -1,0 +1,36 @@
+.col.s12.presentation.card
+  .card-content
+    =form_tag('/upload_presentation', method: 'post', multipart: true) do
+      input (type="hidden" name="presentation_id" value=presentation.id)
+      span.card-title= presentation.title
+      p
+        strong= "Date: #{presentation.presented_at}"
+      p
+        strong= "Status: #{presentation.status.capitalize}"
+
+      ul.collapsible(data-collapsible="accordion")
+        li
+          .collapsible-header
+            i[class="material-icons"] visibility
+            | Description
+          .collapsible-body
+            =simple_format presentation.description
+
+        - if presentation.status != 'uploaded'
+
+      .row
+        .col.s10
+          .file-field.input-field
+            .btn
+              span Video File
+            input(type="file" name="file")
+
+            .file-path-wrapper
+              input.file-path.validate(type="text")
+
+        .col.s2
+          .input-field
+            button.btn-large.waves-effect.waves-light[type="submit" name="action"]
+              | Upload
+              i.material-icons.right
+                | send

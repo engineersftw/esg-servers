@@ -2,7 +2,7 @@ class ProcessVideoWorker
   include Sidekiq::Worker
 
   def perform(title, description, folder_name)
-    cwd_path = File.join(Rails.root, 'uploaded')
+    cwd_path = ENV['UPLOAD_FOLDER']
     result = `cd #{cwd_path} && ./multinorm.sh #{folder_name}`
 
     puts result

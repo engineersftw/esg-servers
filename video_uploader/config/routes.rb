@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root to: 'pages#index'
-  get 'pages/index'
+  root to: 'presentations#index'
+  resources :presentations, only: [:index, :create]
 
   get 'googleauth/start', to: 'google_auth#start'
   get 'googleauth/callback', to: 'google_auth#callback'
