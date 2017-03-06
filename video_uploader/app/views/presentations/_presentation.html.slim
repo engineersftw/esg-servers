@@ -17,7 +17,7 @@
           .collapsible-body
             =simple_format presentation.description
 
-      - if presentation.status == 'pending'
+      - if presentation.needs_video?
         .row.file-upload-row
           .col.s9
             .file-field.input-field
