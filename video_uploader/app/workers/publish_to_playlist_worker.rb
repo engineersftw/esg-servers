@@ -11,6 +11,7 @@ class PublishToPlaylistWorker
       YoutubeService.new.add_to_playlist(playlist_id: play_list_id, video_id: video_id)
       presentation.update(status: 'added_to_playlist')
     rescue Google::APIClient::TransmissionError => e
+      presentation.update(status: 'failed_to_add_to_playlist')
       puts e.result.body
     end
   end

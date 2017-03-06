@@ -8,7 +8,13 @@ class ProcessVideoWorker
     cwd_path = ENV['UPLOAD_FOLDER']
     result = `cd #{cwd_path} && ./multinorm.sh #{folder_name}`
 
-    presentation.update(status: 'processed')
-    UploadVideoWorker.perform_async(presentation_id, folder_name)
+    file_path = File.join(ENV['UPLOAD_FOLDER'], video_file, 'normalized', "#{video_file}-norm.mp4")
+
+    if File.file?(file_path)
+      presentation.update(status: 'processed')
+      UploadVideoWorker.perform_async(presentation_id, folder_name)
+    else
+      presentation.update(status: 'failed_to_process')
+    end
   end
 end
