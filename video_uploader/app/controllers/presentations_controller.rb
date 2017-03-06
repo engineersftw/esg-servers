@@ -1,4 +1,6 @@
 class PresentationsController < ApplicationController
+  before_action :display_status, if: -> { params[:status].present? }
+
   def index
     @presentations = Presentation.where(active: true).order('presented_at ASC')
   end
@@ -27,6 +29,11 @@ class PresentationsController < ApplicationController
   end
 
   private
+
+  def display_status
+    status = params[:status].to_sym
+    flash.now[status] = params[:message]
+  end
 
   def presentation_params
     params.permit(:title, :description, :presented_at)

@@ -23,7 +23,10 @@ $(document).ready(function() {
 
     $('.datepicker').pickadate({
         selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15 // Creates a dropdown of 15 years to control year
+        selectYears: 15, // Creates a dropdown of 15 years to control year
+        format: 'dd mmm, yyyy',
+        formatSubmit: 'yyyy-mm-dd',
+        closeOnSelect: true,
     });
 });
 
@@ -55,9 +58,13 @@ $(function() {
             $(this).find('.file-path').addClass('invalid');
         },
         done: function (e, data) {
-            Materialize.toast('Upload finished.', 4000);
             $(this).find('button').addClass('disabled');
-            $(this).find('.file-upload-row').hide();
+            if ($('.presentation-new').length > 0) {
+                window.location.href = "/?status=notice&message=Upload+finished.";
+            } else {
+                $(this).find('.file-upload-row').hide();
+                Materialize.toast('Upload finished.', 4000);
+            }
         }
     });
 });

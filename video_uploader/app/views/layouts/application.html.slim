@@ -13,7 +13,21 @@ html
         a.brand-logo.center[href="/"] Engineers.SG - Video Uploader
 
     .container
-      == yield
+      .row
+        .col.s12.offset-l1.l10
+          - if notice.present?
+            .card.yellow.lighten-3
+              .card-content.valign-wrapper
+                i.material-icons.small info_outline
+                p.valign.notice=< notice
+          - if alert.present?
+            .card.red.lighten-4
+              .card-content.valign-wrapper
+                i.material-icons.small error_outline
+                p.valign.alert=< alert
+      .row
+        .col.s12
+          == yield
 
     = javascript_include_tag 'application'
     script[src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"]
