@@ -8,7 +8,7 @@ class ProcessVideoWorker
     cwd_path = ENV['UPLOAD_FOLDER']
     result = `cd #{cwd_path} && ./multinorm.sh #{folder_name}`
 
-    file_path = File.join(ENV['UPLOAD_FOLDER'], video_file, 'normalized', "#{video_file}-norm.mp4")
+    file_path = File.join(ENV['UPLOAD_FOLDER'], folder_name, 'normalized', "#{folder_name}-norm.mp4")
 
     if File.file?(file_path)
       presentation.update(status: 'processed')

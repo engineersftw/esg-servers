@@ -1,6 +1,5 @@
 class UploadVideoWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :publishing
 
   def perform(presentation_id, video_file)
     presentation = Presentation.find(presentation_id)

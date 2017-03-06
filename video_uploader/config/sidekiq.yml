@@ -1,4 +1,3 @@
 ---
 :queues:
   - default
-  - publishing

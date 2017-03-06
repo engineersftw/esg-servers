@@ -1,6 +1,5 @@
 class PublishToPlaylistWorker
   include Sidekiq::Worker
-  sidekiq_options queue: :publishing
 
   def perform(presentation_id, play_list_id, video_id)
     presentation = Presentation.find(presentation_id)
