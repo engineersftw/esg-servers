@@ -1,0 +1,41 @@
+.row
+  .col.s12
+    h3 New Presentation
+
+.row
+  .col.s12.presentation.card
+    .card-content
+      =form_tag('/upload_presentation', method: 'post', multipart: true, id: 'presentation', class:'presentation_upload_form' ) do
+        .row
+          .col.s12.input-field
+            input id="presentation_title" type="text" name="title" class="validate"
+            label for="presentation_title" Title
+
+          .col.s12.input-field
+            textarea.materialize-textarea(id="presentation_description" name="description")
+            label(for="presentation_description") Description
+
+          .col.s12.input-field
+            input.datepicker id="presentation_presented_at" type="text" name="presented_at"
+            label for="presentation_presented_at" Presented at
+
+        .row
+          .col.s9
+            .file-field.input-field
+              .btn
+                span Video File
+              input(type="file" name="file")
+
+              .file-path-wrapper
+                input.file-path.validate(type="text")
+
+          .col.s3
+            .input-field
+              button.btn-large.waves-effect.waves-light.upload-btn.disabled[type="submit" name="action"]
+                | Upload
+                i.material-icons.right
+                  | send
+
+          .col.s12.upload-progress-row(style="display:none;")
+            .progress
+              .determinate(style="width: 0%")

@@ -3,8 +3,16 @@ class PresentationsController < ApplicationController
     @presentations = Presentation.where(active: true).order('presented_at ASC')
   end
 
+  def new
+    @presentation = Presentation.new
+  end
+
   def create
-    @presentation = Presentation.find(params[:presentation_id])
+    if params[:presentation_id].present?
+      @presentation = Presentation.find(params[:presentation_id])
+    else
+      @presentation = Presentation.create(presentation_params)
+    end
 
     saved_file_path, md5_filename = move_uploaded_file(file_params)
 
@@ -19,6 +27,10 @@ class PresentationsController < ApplicationController
   end
 
   private
+
+  def presentation_params
+    params.permit(:title, :description, :presented_at)
+  end
 
   def file_params
     params.require(:file).permit(:original_filename, :tempfile, :content_type, :size)

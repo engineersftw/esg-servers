@@ -5,3 +5,8 @@
 
 .row
   = render partial: 'presentation', collection: @presentations
+
+.fixed-action-btn
+  a.btn-floating.btn-large.waves-effect.waves-light.red(href="/presentations/new")
+    i.material-icons.left add
+    | New Presentation
