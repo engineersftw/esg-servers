@@ -21,4 +21,38 @@ RSpec.describe Presentation, type: :model do
       end
     end
   end
+
+  describe '#has_video_link?' do
+    describe 'has video' do
+      before do
+        subject.video_id = 'abcd'
+        subject.video_source = 'youtube'
+      end
+
+      it 'is true' do
+        expect(subject).to be_has_video_link
+      end
+    end
+
+    describe 'does not have video' do
+      it 'is false' do
+        expect(subject).to_not be_has_video_link
+      end
+    end
+  end
+
+  describe '#video_link' do
+    describe 'youtube' do
+      let(:video_id) { 'abcd' }
+
+      before do
+        subject.video_id = video_id
+        subject.video_source = 'youtube'
+      end
+
+      it 'has valid URL' do
+        expect(subject.video_link).to eq "https://youtu.be/#{video_id}"
+      end
+    end
+  end
 end

@@ -5,9 +5,16 @@
       span.card-title= presentation.title
 
       p
-        strong= "Date: #{presentation.presented_at}"
+        strong Date:
+        =<presentation.presented_at
       p
-        strong= "Status: #{presentation.status.capitalize}"
+        strong Status:
+        =<presentation.status.capitalize
+
+      - if presentation.has_video_link?
+        p
+          strong Video Link:
+          a<(href=presentation.video_link) presentation.video_link
 
       ul.collapsible(data-collapsible="accordion")
         li
