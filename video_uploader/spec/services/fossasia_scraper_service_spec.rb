@@ -5,7 +5,7 @@ RSpec.describe FossasiaScraperService do
     before do
       sessions_file = File.join(Rails.root, 'spec', 'fixtures', 'fossasia', 'sessions')
       sessions_json = File.read(sessions_file)
-      stub_request(:get, "http://2017.fossasia.org/json/sessions").to_return(body: sessions_json)
+      stub_request(:get, 'http://2017.fossasia.org/json/sessions').to_return(body: sessions_json)
     end
 
     it 'fetches the events' do

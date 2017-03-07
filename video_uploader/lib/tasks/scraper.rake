@@ -1,5 +1,5 @@
 namespace :scraper do
-  desc "FOSSASIA 2017 Sessions"
+  desc 'FOSSASIA 2017 Sessions'
   task fossasia: :environment do
     presentations = FossasiaScraperService.new.scrape
     puts "Found #{presentations.count} presentations:"
@@ -7,6 +7,17 @@ namespace :scraper do
       puts "Saving: #{p.title}"
       p.save
     end
-    puts "Done."
+    puts 'Done.'
+  end
+
+  desc 'Webuild Events'
+  task webuildsg: :environment do
+    presentations = WebuildScraperService.new.scrape
+    puts "Found #{presentations.count} presentations:"
+    presentations.each do |p|
+      puts "Saving: #{p.title}"
+      p.save
+    end
+    puts 'Done.'
   end
 end
