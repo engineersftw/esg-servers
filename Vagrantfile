@@ -89,8 +89,8 @@ Vagrant.configure("2") do |config|
     provider.api_key = ENV['LINODE_API_TOKEN']
     provider.distribution = 'Ubuntu 16.04 LTS'
     provider.datacenter = 'singapore'
-    provider.plan = 'Linode 2048'
-    provider.label = 'vagrant-test'
+    provider.plan = 'Linode 4096'
+    provider.label = 'esg-video-uploader'
   end
   #
   # View the documentation for the provider you are using for more
