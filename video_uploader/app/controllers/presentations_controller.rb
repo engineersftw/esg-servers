@@ -6,10 +6,14 @@ class PresentationsController < ApplicationController
   end
 
   def new
-    @presentation = Presentation.new(
-                                    description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
-                                    presented_at: Date.today
-    )
+    if params[:duplicate_from].present?
+      @presentation = Presentation.find(params[:duplicate_from])
+    else
+      @presentation = Presentation.new(
+          description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
+          presented_at: Date.today
+      )
+    end
   end
 
   def create
@@ -29,6 +33,13 @@ class PresentationsController < ApplicationController
     end
 
     render json: {status: 'success', file: saved_file_path, new_queue: job_id}
+  end
+
+  def destroy
+    presentation = Presentation.find(params[:id])
+    presentation.update(active: false)
+
+    redirect_to root_path, notice: "\"#{presentation.title}\" was marked as not recorded."
   end
 
   private

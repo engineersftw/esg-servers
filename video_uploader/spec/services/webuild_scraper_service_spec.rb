@@ -15,7 +15,7 @@ RSpec.describe WebuildScraperService do
       event = events.first
 
       expect(event).to be_a Presentation
-      expect(event.title).to eq 'So You Want to Be a UX Designer'
+      expect(event.title).to eq 'So You Want to Be a UX Designer - General Assembly Singapore'
 
       expect(event.source).to eq 'webuild'
       expect(event.foreign_uid).to eq 'facebook_221579128315306'

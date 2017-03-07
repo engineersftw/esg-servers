@@ -8,7 +8,7 @@ class WebuildScraperService
     sessions[:events].collect do |session|
       presentation = Presentation.where(foreign_uid: "#{session[:platform]}_#{session[:id]}", source: 'webuild').first_or_initialize
 
-      presentation.title = session[:name]
+      presentation.title = "#{session[:name]} - #{session[:group_name]}"
       presentation.description = build_description(session)
       presentation.presented_at = session[:start_time]
 
