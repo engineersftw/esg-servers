@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303001714) do
+ActiveRecord::Schema.define(version: 20170307014413) do
 
   create_table "presentations", force: :cascade do |t|
     t.string  "title"
@@ -18,8 +18,11 @@ ActiveRecord::Schema.define(version: 20170303001714) do
     t.string  "foreign_uid"
     t.string  "source"
     t.date    "presented_at"
-    t.string  "status",       default: "pending", null: false
-    t.boolean "active",       default: true
+    t.string  "status",        default: "pending", null: false
+    t.boolean "active",        default: true
+    t.string  "uploaded_file"
+    t.string  "video_id"
+    t.string  "video_source",  default: "youtube"
     t.index ["active"], name: "index_presentations_on_active"
     t.index ["foreign_uid", "source"], name: "index_presentations_on_foreign_uid_and_source"
   end

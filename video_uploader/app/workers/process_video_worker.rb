@@ -11,7 +11,7 @@ class ProcessVideoWorker
     file_path = File.join(ENV['UPLOAD_FOLDER'], folder_name, 'normalized', "#{folder_name}-norm.mp4")
 
     if File.file?(file_path)
-      presentation.update(status: 'processed')
+      presentation.update(status: 'processed', uploaded_file: folder_name)
       UploadVideoWorker.perform_async(presentation_id, folder_name)
     else
       presentation.update(status: 'failed_to_process')
