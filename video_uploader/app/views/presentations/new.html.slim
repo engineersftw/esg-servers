@@ -8,15 +8,16 @@
       =form_tag('/upload_presentation', method: 'post', multipart: true, id: 'presentation', class:'presentation_upload_form' ) do
         .row
           .col.s12.input-field
-            input id="presentation_title" type="text" name="title" class="validate"
+            input id="presentation_title" type="text" name="title" class="validate" value=@presentation.title
             label for="presentation_title" Title
 
           .col.s12.input-field
             textarea.materialize-textarea(id="presentation_description" name="description")
+              =@presentation.description
             label(for="presentation_description") Description
 
           .col.s12.input-field
-            input.datepicker id="presentation_presented_at" type="text" name="presented_at"
+            input.datepicker id="presentation_presented_at" type="text" name="presented_at" value=@presentation.presented_at.strftime('%d %b, %Y')
             label for="presentation_presented_at" Presented at
 
         .row

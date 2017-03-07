@@ -6,7 +6,10 @@ class PresentationsController < ApplicationController
   end
 
   def new
-    @presentation = Presentation.new
+    @presentation = Presentation.new(
+                                    description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
+                                    presented_at: Date.today
+    )
   end
 
   def create
