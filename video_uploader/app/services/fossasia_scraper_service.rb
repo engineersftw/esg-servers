@@ -10,7 +10,7 @@ class FossasiaScraperService
     sessions.collect do |session|
       presentation = Presentation.where(foreign_uid: "#{session[:id]}", source: 'fossasia').first_or_initialize
 
-      presentation.title = session[:title]
+      presentation.title = "#{session[:title]} - FOSSASIA 2017"
       presentation.description = build_description(session)
       presentation.presented_at = session[:start_time]
 
