@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170307014413) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "presentations", force: :cascade do |t|
     t.string  "title"
     t.text    "description"
@@ -23,8 +26,8 @@ ActiveRecord::Schema.define(version: 20170307014413) do
     t.string  "uploaded_file"
     t.string  "video_id"
     t.string  "video_source",  default: "youtube"
-    t.index ["active"], name: "index_presentations_on_active"
-    t.index ["foreign_uid", "source"], name: "index_presentations_on_foreign_uid_and_source"
+    t.index ["active"], name: "index_presentations_on_active", using: :btree
+    t.index ["foreign_uid", "source"], name: "index_presentations_on_foreign_uid_and_source", using: :btree
   end
 
 end

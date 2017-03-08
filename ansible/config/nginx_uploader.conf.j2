@@ -49,6 +49,10 @@ http {
 
         passenger_env_var SECRET_KEY_BASE {{ rails_secret_key }};
         passenger_env_var UPLOAD_FOLDER {{ upload_folder }};
+        passenger_env_var DB_HOST {{ db_host }};
+        passenger_env_var DB_NAME {{ db_name }};
+        passenger_env_var DB_USERNAME {{ db_username }};
+        passenger_env_var DB_PASSWORD {{ db_password }};
 
         #charset koi8-r;
 
