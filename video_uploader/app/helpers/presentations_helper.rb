@@ -18,4 +18,8 @@ module PresentationsHelper
         'blue darken-1'
     end
   end
+
+  def self.upload_path
+    ENV['USE_NGINX_UPLOAD_MODULE'] == '1' ? '/upload_presentation' : '/presentations'
+  end
 end
