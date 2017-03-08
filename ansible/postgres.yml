@@ -5,3 +5,8 @@
     - postgresql
     - postgresql-contrib
     - libpq-dev
+
+- name: Start Postgres service
+  service: name=postgresql enabled=yes state=started
+
+# sudo -u postgres createuser -d -P videouploader

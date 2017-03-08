@@ -4,8 +4,9 @@
     app_root: /srv/apps/video_uploader
     document_root: "{{ app_root }}/public"
     upload_folder: "/video_uploads"
-    rails_secret_key: a2b4690675fe697033d0ae0f1a2c56bb060d950eac1a9567ad377966c7b85393b426e4c383f6a74c4dddef9d1481c608b7b5a87af4dfa11e792a3e61ab52d00
   tasks:
+    - name: Load env.yml
+      include_vars: file=env.yml
     - block:
       - name: Run the equivalent of "apt-get update" as a separate step
         apt: update_cache=yes
@@ -17,6 +18,8 @@
           creates: /root/working/nginx-1.11.8
       - name: Install Redis
         include: redis.yml
+      - name: Install postgres
+        include: postgres.yml
       - name: Install Ruby
         include: ruby.yml
       - name: Install Passenger
