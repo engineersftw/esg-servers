@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Installing prerequisite packages..."
-sudo apt-get install -y build-essential libpcre3 libpcre3-dev libssl-dev unzip
+sudo apt-get install -y build-essential libpcre3 libpcre3-dev libssl-dev unzip htop
 
 echo "Prepare working folder..."
 mkdir -p ~/working && cd ~/working
