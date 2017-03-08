@@ -23,16 +23,18 @@ class PresentationsController < ApplicationController
       @presentation = Presentation.create(presentation_params)
     end
 
-    saved_file_path, md5_filename = move_uploaded_file(file_params)
+    if params[:file].present?
+      saved_file_path, md5_filename = move_uploaded_file(file_params)
 
-    if saved_file_path.present? && File.exist?(saved_file_path)
-      @presentation.update(status: 'uploaded')
+      if saved_file_path.present? && File.exist?(saved_file_path)
+        @presentation.update(status: 'uploaded', uploaded_file: md5_filename)
 
-      Rails.logger.info "Adding ProcessVideoWorker for #{saved_file_path}"
-      job_id = ProcessVideoWorker.perform_async(@presentation.id, md5_filename)
+        Rails.logger.info "Adding ProcessVideoWorker for #{saved_file_path}"
+        ProcessVideoWorker.perform_async(@presentation.id)
+      end
     end
 
-    render json: {status: 'success', file: saved_file_path, new_queue: job_id}
+    render json: {status: 'success'}
   end
 
   def destroy

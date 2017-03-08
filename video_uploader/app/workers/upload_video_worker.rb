@@ -1,9 +1,10 @@
 class UploadVideoWorker
   include Sidekiq::Worker
 
-  def perform(presentation_id, video_file)
+  def perform(presentation_id)
     presentation = Presentation.find(presentation_id)
     presentation.update(status: 'publishing_to_youtube')
+    video_file = presentation.uploaded_file
 
     file_path = File.join(ENV['UPLOAD_FOLDER'], video_file, 'normalized', "#{video_file}-norm.mp4")
 
