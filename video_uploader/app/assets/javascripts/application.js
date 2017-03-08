@@ -36,9 +36,10 @@ $(function() {
         replaceFileInput: false,
         url: '/upload_presentation',
         add: function (e, data) {
-            $(this).find('button').removeClass('disabled');
+            $(this).find('.upload-btn').removeClass('disabled');
             $(this).find('.upload-btn').click(function (e) {
                 e.preventDefault();
+                $(this).addClass('disabled')
                 data.submit();
             });
         },
@@ -56,9 +57,10 @@ $(function() {
         fail: function (e, data) {
             Materialize.toast('Unable to upload file.', 4000);
             $(this).find('.file-path').addClass('invalid');
+            $(this).find('.upload-btn').removeClass('disabled');
         },
         done: function (e, data) {
-            $(this).find('button').addClass('disabled');
+            $(this).find('.upload-btn').addClass('disabled');
             if ($('.presentation-new').length > 0) {
                 window.location.href = "/?status=notice&message=Upload+finished.";
             } else {
