@@ -39,7 +39,7 @@ class PresentationsController < ApplicationController
     presentation = Presentation.find(params[:id])
     presentation.update(active: false)
 
-    redirect_to root_path, notice: "\"#{presentation.title}\" was marked as not recorded."
+    redirect_to root_path, notice: "\"#{presentation.title}\" was marked as hidden."
   end
 
   private
