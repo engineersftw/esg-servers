@@ -13,7 +13,7 @@
       - if presentation.has_video_link?
         p
           strong Video Link:
-          a<(href=presentation.video_link) presentation.video_link
+          a<(href=presentation.video_link target="_blank")= presentation.video_link
 
       ul.collapsible(data-collapsible="accordion")
         li
