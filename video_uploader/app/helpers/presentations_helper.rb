@@ -4,6 +4,7 @@ module PresentationsHelper
       when 'failed_to_process'
       when 'failed_to_publish'
       when 'failed_to_add_to_playlist'
+      when 'failed_to_clean'
         'red darken-1'
 
       when 'processing'
@@ -12,6 +13,8 @@ module PresentationsHelper
 
       when 'published_to_youtube'
       when 'adding_to_playlist'
+      when 'cleaning_folder'
+      when 'cleaned'
         'green darken-1'
 
       else
