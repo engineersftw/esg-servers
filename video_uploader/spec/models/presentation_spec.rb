@@ -7,6 +7,10 @@ RSpec.describe Presentation, type: :model do
     it { should validate_presence_of(:presented_at) }
   end
 
+  describe '#associations' do
+    it { should belong_to :event}
+  end
+
   describe '#needs_video?' do
     context 'will needs video' do
       before do
