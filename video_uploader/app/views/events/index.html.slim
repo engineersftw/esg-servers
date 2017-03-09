@@ -1,0 +1,11 @@
+.row
+  .col.s12
+    h3 Events
+
+.row
+  = render partial: 'event', collection: @events
+
+.fixed-action-btn
+  a.btn-floating.btn-large.waves-effect.waves-light.red(href="/presentations/new")
+    i.material-icons.left add
+    | New Presentation

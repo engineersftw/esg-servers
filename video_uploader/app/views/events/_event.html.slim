@@ -1,0 +1,21 @@
+.col.s12.presentation.card
+  .card-content
+    span(data-badge-caption="" class="badge new")
+      = event.status.capitalize
+    span.card-title= event.title
+
+    p
+      strong Date:
+      =<>event.event_date.strftime('%d %b, %Y')
+
+    ul.collapsible(data-collapsible="accordion")
+      li
+        .collapsible-header
+          i[class="material-icons"] visibility
+          | Description
+        .collapsible-body
+          =simple_format event.description
+
+  .card-action
+    a(href=new_presentation_path(event_id:event.id)) Upload Video
+    a(href=event_path(event) data-method="delete" data-confirm="Are you sure you want to hide this event?") Hide

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root to: 'presentations#index'
+  root to: 'events#index'
+  resources :events, only: [:index, :destroy]
   resources :presentations, only: [:index, :new, :create, :destroy]
 
   get 'googleauth/start', to: 'google_auth#start'
