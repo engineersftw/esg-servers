@@ -34,9 +34,10 @@ $(function() {
     $('.presentation_upload_form').fileupload({
         dataType: 'json',
         replaceFileInput: false,
-        url: '/upload_presentation',
+        url: $('.presentation_upload_form').attr('action'),
         add: function (e, data) {
             $(this).find('.upload-btn').removeClass('disabled');
+            $(this).find('.file-path').removeClass('invalid');
             $(this).find('.upload-btn').click(function (e) {
                 e.preventDefault();
                 $(this).addClass('disabled')
@@ -62,7 +63,7 @@ $(function() {
         done: function (e, data) {
             $(this).find('.upload-btn').addClass('disabled');
             if ($('.presentation-new').length > 0) {
-                window.location.href = "/?status=notice&message=Upload+finished.";
+                window.location.href = "/presentations?status=notice&message=Upload+finished.";
             } else {
                 $(this).find('.file-upload-row').hide();
                 Materialize.toast('Upload finished.', 4000);

@@ -1,6 +1,4 @@
 class PresentationsController < ApplicationController
-  before_action :display_status, if: -> { params[:status].present? }
-
   def index
     @presentations = Presentation.where(active: true).order('presented_at ASC')
   end
@@ -52,33 +50,35 @@ class PresentationsController < ApplicationController
 
   private
 
-  def display_status
-    status = params[:status].to_sym
-    flash.now[status] = params[:message]
-  end
-
   def presentation_params
     params.permit(:title, :description, :presented_at, :event_id)
   end
 
   def file_params
-    params.require(:file).permit(:original_filename, :tempfile, :content_type, :size)
+    params.require(:file)
   end
 
   def move_uploaded_file(uploaded_file={})
-    return if uploaded_file.empty?
+    return if uploaded_file == nil
 
-    md5_filename = Digest::MD5.hexdigest("#{uploaded_file[:original_filename]}-#{Time.now.to_i}")
-    file_ext = File.extname(uploaded_file[:original_filename])
+    if uploaded_file.try(:original_filename)
+      md5_filename = Digest::MD5.hexdigest("#{uploaded_file.original_filename}-#{Time.now.to_i}")
+      file_ext = File.extname(uploaded_file.original_filename)
+      temp_file = uploaded_file.tempfile
+    else
+      md5_filename = Digest::MD5.hexdigest("#{uploaded_file[:original_filename]}-#{Time.now.to_i}")
+      file_ext = File.extname(uploaded_file[:original_filename])
+      temp_file = uploaded_file[:tempfile]
+    end
 
     save_path = File.join(ENV['UPLOAD_FOLDER'], md5_filename, md5_filename + file_ext)
 
     dir = File.dirname(save_path.to_s)
     FileUtils.mkdir_p(dir, mode: 0777) unless File.directory?(dir)
 
-    if File.exist?(uploaded_file[:tempfile])
-      Rails.logger.info "Copying #{uploaded_file[:tempfile]} to #{save_path}..."
-      FileUtils.mv(uploaded_file[:tempfile], save_path)
+    if File.exist?(temp_file)
+      Rails.logger.info "Copying #{temp_file} to #{save_path}..."
+      FileUtils.mv(temp_file, save_path)
 
       [save_path, md5_filename]
     end
