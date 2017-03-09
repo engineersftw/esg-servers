@@ -6,8 +6,14 @@ class PresentationsController < ApplicationController
   end
 
   def new
-    if params[:duplicate_from].present?
-      @presentation = Presentation.find(params[:duplicate_from])
+    if params[:event_id].present?
+      @event = Event.find(params[:event_id])
+      @presentation = Presentation.new(
+                                      event: @event,
+                                      title: @event.title,
+                                      description: @event.description,
+                                      presented_at: @event.event_date
+      )
     else
       @presentation = Presentation.new(
           description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
@@ -52,7 +58,7 @@ class PresentationsController < ApplicationController
   end
 
   def presentation_params
-    params.permit(:title, :description, :presented_at)
+    params.permit(:title, :description, :presented_at, :event_id)
   end
 
   def file_params

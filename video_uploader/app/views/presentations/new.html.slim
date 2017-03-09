@@ -6,6 +6,7 @@
   .col.s12.presentation-new.card
     .card-content
       =form_tag('/upload_presentation', method: 'post', multipart: true, id: 'presentation', class:'presentation_upload_form' ) do
+        input(type="hidden" name="event_id" value=@presentation.event_id)
         .row
           .col.s12.input-field
             input id="presentation_title" type="text" name="title" class="validate" value=@presentation.title
