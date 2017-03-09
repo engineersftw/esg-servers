@@ -14,8 +14,8 @@ RSpec.describe FossasiaScraperService do
       expect(events.count).to eq 201
       event = events.first
 
-      expect(event).to be_a Presentation
-      expect(event.title).to eq 'Migrating Legacy Backends to Serverless in Parallel'
+      expect(event).to be_a Event
+      expect(event.title).to eq 'Migrating Legacy Backends to Serverless in Parallel - FOSSASIA 2017'
 
       expected_description = <<-TEXT
 Speaker(s): Rumesh Eranga Hapuarachchi (Colombo)
@@ -33,7 +33,7 @@ Produced by Engineers.SG
       expect(event.source).to eq 'fossasia'
       expect(event.foreign_uid).to eq '3027'
       expect(event.status).to eq 'pending'
-      expect(event.presented_at).to eq Date.parse('2017-03-19')
+      expect(event.event_date).to eq Date.parse('2017-03-19')
     end
   end
 end

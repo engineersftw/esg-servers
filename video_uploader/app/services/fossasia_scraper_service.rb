@@ -8,13 +8,13 @@ class FossasiaScraperService
     sessions.reject!{ |session| ['Breaks','Exhibition'].include?(session[:track].try(:[], :name)) }
 
     sessions.collect do |session|
-      presentation = Presentation.where(foreign_uid: "#{session[:id]}", source: 'fossasia').first_or_initialize
+      event = Event.where(foreign_uid: "#{session[:id]}", source: 'fossasia').first_or_initialize
 
-      presentation.title = "#{session[:title]} - FOSSASIA 2017"
-      presentation.description = build_description(session)
-      presentation.presented_at = session[:start_time]
+      event.title = "#{session[:title]} - FOSSASIA 2017"
+      event.description = build_description(session)
+      event.event_date = session[:start_time]
 
-      presentation
+      event
     end
   end
 

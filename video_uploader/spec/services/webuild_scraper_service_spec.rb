@@ -14,13 +14,13 @@ RSpec.describe WebuildScraperService do
       expect(events.count).to eq 147
       event = events.first
 
-      expect(event).to be_a Presentation
+      expect(event).to be_a Event
       expect(event.title).to eq 'So You Want to Be a UX Designer - General Assembly Singapore'
 
       expect(event.source).to eq 'webuild'
       expect(event.foreign_uid).to eq 'facebook_221579128315306'
       expect(event.status).to eq 'pending'
-      expect(event.presented_at).to eq Date.parse('2017-03-07')
+      expect(event.event_date).to eq Date.parse('2017-03-07')
     end
   end
 end

@@ -6,13 +6,13 @@ class WebuildScraperService
     sessions = JSON.parse(response.body, symbolize_names: true)
 
     sessions[:events].collect do |session|
-      presentation = Presentation.where(foreign_uid: "#{session[:platform]}_#{session[:id]}", source: 'webuild').first_or_initialize
+      event = Event.where(foreign_uid: "#{session[:platform]}_#{session[:id]}", source: 'webuild').first_or_initialize
 
-      presentation.title = "#{session[:name]} - #{session[:group_name]}"
-      presentation.description = build_description(session)
-      presentation.presented_at = session[:start_time]
+      event.title = "#{session[:name]} - #{session[:group_name]}"
+      event.description = build_description(session)
+      event.event_date = session[:start_time]
 
-      presentation
+      event
     end
   end
 
