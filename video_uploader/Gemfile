@@ -43,14 +43,7 @@ gem 'google-api-client', '~> 0.8.0'
 gem 'httpclient'
 gem 'nokogiri'
 gem 'dotenv-rails'
-
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
-  gem 'webmock'
-  gem 'pry-rails'
-  gem 'binding_of_caller'
-end
+gem 'devise'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -68,13 +61,12 @@ gem 'slim-rails'
 group :development, :test do
   gem 'rspec-rails'
   gem 'pry'
+  gem 'byebug', platform: :mri
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'better_errors'
   gem 'spring-commands-rspec'
+  gem 'binding_of_caller'
+  gem 'webmock'
   gem 'shoulda-matchers'
-end
-
-group :production do
-  gem 'rails_12factor'
 end

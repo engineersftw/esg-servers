@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admins
   root to: 'events#index'
   resources :events, only: [:index, :destroy]
   resources :presentations, only: [:index, :new, :create, :destroy]

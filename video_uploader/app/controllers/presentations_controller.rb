@@ -1,6 +1,8 @@
 class PresentationsController < ApplicationController
+  before_action :authenticate_admin!
+
   def index
-    @presentations = Presentation.where(active: true).order('presented_at ASC')
+    @presentations = Presentation.where(active: true).order('updated_at DESC')
   end
 
   def new
@@ -27,6 +29,10 @@ class PresentationsController < ApplicationController
       @presentation = Presentation.create(presentation_params)
     end
 
+    unless @presentation.valid?
+      return render json: {status: 'failed_to_save', error: @presentation.errors.messages}, status: 500
+    end
+
     if params[:file].present?
       saved_file_path, md5_filename = move_uploaded_file(file_params)
 
@@ -45,7 +51,7 @@ class PresentationsController < ApplicationController
     presentation = Presentation.find(params[:id])
     presentation.update(active: false)
 
-    redirect_to root_path, notice: "\"#{presentation.title}\" was marked as hidden."
+    redirect_to presentations_path, notice: "\"#{presentation.title}\" was marked as hidden."
   end
 
   private
