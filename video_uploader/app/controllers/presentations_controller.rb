@@ -2,7 +2,7 @@ class PresentationsController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @presentations = Presentation.where(active: true).order('updated_at DESC')
+    @presentations = Presentation.where(active: true).order('created_at DESC')
   end
 
   def new
