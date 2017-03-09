@@ -1,5 +1,5 @@
 module PresentationsHelper
-  def self.badge_color(presentation)
+  def badge_color(presentation)
     case presentation.status
       when 'failed_to_process'
       when 'failed_to_publish'
@@ -22,7 +22,7 @@ module PresentationsHelper
     end
   end
 
-  def self.upload_path
+  def upload_path
     ENV['USE_NGINX_UPLOAD_MODULE'] == '1' ? '/upload_presentation' : '/presentations'
   end
 end

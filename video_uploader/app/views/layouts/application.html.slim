@@ -12,6 +12,13 @@ html
       .nav-wrapper
         a.brand-logo.center[href="/"] Engineers.SG - Video Uploader
 
+        ul#nav-mobile.left.hide-on-med-and-down
+          li class=(is_events_page? ? 'active' : '')
+            a(href="/events") Events
+
+          li class=(is_presentation_page? ? 'active' : '')
+            a(href="/presentations") Presentation
+
     .container
       .row
         .col.s12.offset-l1.l10

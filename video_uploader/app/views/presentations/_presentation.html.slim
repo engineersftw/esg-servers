@@ -1,8 +1,8 @@
 .col.s12.presentation.card
   .card-content
-    =form_tag(PresentationsHelper.upload_path, method: 'post', multipart: true, id: "presentation_#{presentation.id}", class:'presentation_upload_form' ) do
+    =form_tag(upload_path, method: 'post', multipart: true, id: "presentation_#{presentation.id}", class:'presentation_upload_form' ) do
       input (type="hidden" name="presentation_id" value=presentation.id)
-      span(data-badge-caption="" class="badge new #{PresentationsHelper.badge_color(presentation)}")
+      span(data-badge-caption="" class="badge new #{badge_color(presentation)}")
         = presentation.status.capitalize
       span.card-title= presentation.title
 
