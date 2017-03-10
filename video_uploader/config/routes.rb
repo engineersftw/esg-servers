@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :admins
   root to: 'events#index'
   resources :events, only: [:index, :destroy]
-  resources :presentations, only: [:index, :show, :new, :create, :destroy, :update]
+  resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update]
 
   get 'googleauth/start', to: 'google_auth#start'
   get 'googleauth/callback', to: 'google_auth#callback'

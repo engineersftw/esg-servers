@@ -9,6 +9,7 @@
   .col.s12.presentation-new.card
     .card-content
       =form_tag(presentation_path(@presentation), method: 'put', multipart: true, id: 'presentation') do
+        input(type="hidden" name="event_id" value=@presentation.event_id)
         .row
           .col.s12.input-field
             input id="presentation_title" type="text" name="title" class="validate" value=@presentation.title

@@ -7,10 +7,6 @@ class PresentationsController < ApplicationController
     @total_records = @presentations.total_count
   end
 
-  def show
-    @presentation = Presentation.find(params[:id])
-  end
-
   def new
     if params[:event_id].present?
       @event = Event.find(params[:event_id])
@@ -60,12 +56,16 @@ class PresentationsController < ApplicationController
     redirect_to presentations_path, notice: "\"#{presentation.title}\" was marked as hidden."
   end
 
+  def edit
+    @presentation = Presentation.find(params[:id])
+  end
+
   def update
     @presentation = Presentation.find(params[:id])
     @presentation.update(presentation_params)
 
     if @presentation.valid?
-      redirect_to presentations_path, notice: "\"#{presentation.title}\" was updated."
+      redirect_to presentations_path, notice: "\"#{@presentation.title}\" was updated."
     else
       flash.now[:error] = 'Unable to update this presentation: ' + @presentation.errors.messages
       render :show
