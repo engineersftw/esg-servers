@@ -1,0 +1,38 @@
+.row
+  .col.s12
+    h3
+      | Edit Presentation
+      span(data-badge-caption="" class="badge new #{badge_color(@presentation)}")
+        = @presentation.status.capitalize
+
+.row
+  .col.s12.presentation-new.card
+    .card-content
+      =form_tag(presentation_path(@presentation), method: 'put', multipart: true, id: 'presentation') do
+        .row
+          .col.s12.input-field
+            input id="presentation_title" type="text" name="title" class="validate" value=@presentation.title
+            label for="presentation_title" Title
+
+          .col.s12.input-field
+            textarea.materialize-textarea(id="presentation_description" name="description")
+              =@presentation.description
+            label(for="presentation_description") Description
+
+          .col.s12.input-field
+            input.datepicker id="presentation_presented_at" type="text" name="presented_at" value=@presentation.presented_at.strftime('%d %b, %Y')
+            label for="presentation_presented_at" Presented at
+
+          - if @presentation.has_video_link?
+            .col.col12
+              p
+                strong Video Link:
+                a<(href=@presentation.video_link target="_blank")= @presentation.video_link
+
+        .row
+          .col.s12
+            .input-field
+              button.btn-large.waves-effect.waves-light.upload-btn[type="submit" name="action"]
+                | Update
+                i.material-icons.right
+                  | send

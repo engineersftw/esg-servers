@@ -14,6 +14,13 @@
         .collapsible-body
           =simple_format event.description
 
+    - if event.presentations.present?
+      .collection
+        - event.presentations.each do |presentation|
+          a.collection-item(href=presentation_path(presentation))
+            = presentation.title
+            span(data-badge-caption="" class="badge new #{badge_color(presentation)}")= presentation.status.capitalize
+
   .card-action
     a(href=new_presentation_path(event_id:event.id)) Upload Video
     a(href=event_path(event) data-method="delete" data-confirm="Are you sure you want to hide this event?") Hide
