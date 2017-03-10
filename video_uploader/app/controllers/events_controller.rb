@@ -2,7 +2,9 @@ class EventsController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @events = Event.where(active: true).order('event_date ASC')
+    @current_page = (params[:page] || 1).to_i
+    @events = Event.active.order('event_date ASC').page(@current_page)
+    @total_records = @events.total_count
   end
 
   def destroy

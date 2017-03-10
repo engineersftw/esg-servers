@@ -2,7 +2,9 @@ class PresentationsController < ApplicationController
   before_action :authenticate_admin!
 
   def index
-    @presentations = Presentation.where(active: true).order('created_at DESC')
+    @current_page = (params[:page] || 1).to_i
+    @presentations = Presentation.active.order('created_at ASC').page(@current_page)
+    @total_records = @presentations.total_count
   end
 
   def new
