@@ -1,6 +1,4 @@
 class GoogleAuthController < ApplicationController
-  before_action :authenticate_admin!
-
   API_SCOPE = [
       'https://www.googleapis.com/auth/youtube.force-ssl',
       'https://www.googleapis.com/auth/youtube',

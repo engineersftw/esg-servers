@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   resources :events, only: [:index, :destroy]
   resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update]
 
-  get 'googleauth/start', to: 'google_auth#start'
-  get 'googleauth/callback', to: 'google_auth#callback'
+  if Rails.env.development?
+    get 'googleauth/start', to: 'google_auth#start'
+    get 'googleauth/callback', to: 'google_auth#callback'
+  end
 
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
