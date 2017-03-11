@@ -28,3 +28,9 @@ bundle exec sidekiq -e production -d -L ./log/sidekiq.log
 RAILS_ENV=production rake scraper:webuildsg
 RAILS_ENV=production rake scraper:fossasia
 ```
+
+### Create Admin Users
+
+```
+RAILS_ENV=production rake db:seed
+```

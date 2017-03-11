@@ -47,6 +47,11 @@
         file: dest=/var/esg-videos state=directory mode=0777
       - name: Project Bundle Install
         shell: . /root/.bashrc && cd {{ app_root }} && bundle install --jobs=4 --retry=3
+      - name: Add Cronjob
+        cron:
+          name: Events update
+          minute: "0"
+          job: ". /root/.bashrc && cd {{ app_root }} && RAILS_ENV=production rake scraper:webuildsg"
       become: yes
       become_method: sudo
   handlers:

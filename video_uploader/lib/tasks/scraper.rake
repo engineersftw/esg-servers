@@ -10,14 +10,15 @@ namespace :scraper do
     puts 'Done.'
   end
 
-  desc 'Webuild Events'
+  desc 'WebuildSG Events'
   task webuildsg: :environment do
+    Rails.logger.info 'Starting scraper for WebuildSG'
     presentations = WebuildScraperService.new.scrape
-    puts "Found #{presentations.count} presentations:"
+    Rails.logger.info "Found #{presentations.count} presentations:"
     presentations.each do |p|
-      puts "Saving: #{p.title}"
+      Rails.logger.info "Saving: #{p.title}"
       p.save
     end
-    puts 'Done.'
+    Rails.logger.info 'Done scraping.'
   end
 end
