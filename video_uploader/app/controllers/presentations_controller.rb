@@ -65,6 +65,22 @@ class PresentationsController < ApplicationController
     @presentation.update(presentation_params)
 
     if @presentation.valid?
+      if (@presentation.has_video_link?)
+        begin
+          youtube_service = YoutubeService.new
+          options = {
+              id: @presentation.video_id,
+              title: @presentation.title,
+              description: @presentation.description,
+          }
+          api_response = youtube_service.update_video(options)
+
+          Rails.logger.info("Video id '#{api_response.try(:data).try(:id)}' was successfully updated.")
+        rescue => e
+          Rails.logger.error("Failed to update YouTube (#{@presentation.video_id}): #{e.message}")
+        end
+      end
+
       redirect_to presentations_path, notice: "\"#{@presentation.title}\" was updated."
     else
       flash.now[:error] = 'Unable to update this presentation: ' + @presentation.errors.messages

@@ -115,7 +115,8 @@ class YoutubeService
             playlistId: options[:playlist_id],
             resourceId: {
                 kind: 'youtube#video',
-                videoId: options[:video_id]
+                videoId: options[:video_id],
+                categoryId: '28'
             }
         }
     }
@@ -129,6 +130,30 @@ class YoutubeService
     )
 
     playlist_item_insert_response
+  end
+
+  def update_video(options={})
+    body = {
+        id: options[:id],
+        snippet: {
+            title: options[:title],
+            description: options[:description],
+            categoryId: '28',
+        },
+        status: {
+            license: 'creativeCommon',
+        }
+    }
+
+    video_update_response = api_client.execute!(
+        api_method: youtube.videos.update,
+        body_object: body,
+        parameters: {
+            part: body.keys.join(',')
+        }
+    )
+
+    video_update_response
   end
 
   private
