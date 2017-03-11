@@ -12,12 +12,21 @@ html
       .nav-wrapper
         a.brand-logo.center[href="/"] Engineers.SG - Video Uploader
 
-        ul#nav-mobile.left.hide-on-med-and-down
-          li class=(is_events_page? ? 'active' : '')
-            a(href="/events") Events
+        - if admin_signed_in?
+          ul#nav-mobile.left.hide-on-med-and-down
+            li class=(is_events_page? ? 'active' : '')
+              a(href="/events") Events
 
-          li class=(is_presentation_page? ? 'active' : '')
-            a(href="/presentations") Presentation
+            li class=(is_presentation_page? ? 'active' : '')
+              a(href="/presentations") Presentation
+
+        - if admin_signed_in?
+          ul.right.hide-on-med-and-down
+            li
+              li= current_admin.email
+              li= link_to "Logout", destroy_admin_session_path, method: :delete
+
+
 
     .container
       .row
