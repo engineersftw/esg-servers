@@ -11,10 +11,20 @@
 
 ```
 sudo -u postgres createuser -d -P videouploader
+cd /srv/apps/video_uploader
+RAILS_ENV=production rake db:create
+RAILS_ENV=production rake db:migrate
 ```
 
 ### Run Sidekiq
 
 ```
 bundle exec sidekiq -e production -d -L ./log/sidekiq.log
+```
+
+### Run Event Scrapers
+
+```
+RAILS_ENV=production rake scraper:webuildsg
+RAILS_ENV=production rake scraper:fossasia
 ```
