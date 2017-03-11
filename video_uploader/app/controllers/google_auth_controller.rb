@@ -25,7 +25,9 @@ class GoogleAuthController < ApplicationController
     puts "Access Token: " + tokens[:access_token]
     puts "Refresh Token: " + tokens[:refresh_token]
 
-    redirect_to session[:return_url]
+    return redirect_to session[:return_url] if session[:return_url].present?
+
+    render jaon: {access_token: tokens[:access_token], refresh_token: tokens[:refresh_token]}
   end
 
   private
