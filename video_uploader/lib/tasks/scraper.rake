@@ -1,4 +1,10 @@
 namespace :scraper do
+  desc 'Run Scrapers needed by the app'
+  task run: :environment do
+    default_task = "scraper:#{ENV['DEFAULT_SCRAPER']}"
+    Rake::Task[default_task].invoke
+  end
+
   desc 'FOSSASIA 2017 Sessions'
   task fossasia: :environment do
     presentations = FossasiaScraperService.new.scrape

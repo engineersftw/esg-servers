@@ -29,6 +29,12 @@ RAILS_ENV=production rake scraper:webuildsg
 RAILS_ENV=production rake scraper:fossasia
 ```
 
+Or you may create a default scraper by setting `ENV['DEFAULT_SCRAPER']` to the specific scraper and set this up as a cronjob.
+
+```
+RAILS_ENV=production rake scraper:run
+```
+
 ### Create Admin Users
 
 ```
