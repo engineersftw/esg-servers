@@ -15,12 +15,14 @@ class PresentationsController < ApplicationController
                                       event: @event,
                                       title: @event.title,
                                       description: @event.description,
-                                      presented_at: @event.event_date
+                                      presented_at: @event.event_date,
+                                      playlist_id: ENV['DEFAULT_PLAYLIST_ID']
       )
     else
       @presentation = Presentation.new(
           description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
-          presented_at: Date.today
+          presented_at: Date.today,
+          playlist_id: ENV['DEFAULT_PLAYLIST_ID']
       )
     end
   end

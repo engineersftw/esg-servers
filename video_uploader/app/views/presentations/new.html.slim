@@ -18,7 +18,7 @@
             label(for="presentation_description") Description
 
           .col.s12.input-field
-            = select_tag :playlist_id, options_from_collection_for_select(@playlists, 'id', 'title'), include_blank: true
+            = select_tag :playlist_id, options_from_collection_for_select(@playlists, 'id', 'title', @presentation.playlist_id), id: 'presentation_playlist_id'
             label for="presentation_playlist_id" Playlist
 
           .col.s12.input-field

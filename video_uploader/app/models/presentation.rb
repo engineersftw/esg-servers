@@ -1,7 +1,7 @@
 class Presentation < ApplicationRecord
   validates_presence_of :title, :description, :presented_at
   belongs_to :event, optional: true
-  belongs_to :playlist
+  belongs_to :playlist, optional: true
 
   scope :active, -> { where(active: true) }
 
