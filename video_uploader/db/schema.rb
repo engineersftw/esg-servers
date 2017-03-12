@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309152834) do
+ActiveRecord::Schema.define(version: 20170312015925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20170309152834) do
     t.index ["foreign_uid", "source"], name: "index_events_on_foreign_uid_and_source", using: :btree
   end
 
+  create_table "playlists", force: :cascade do |t|
+    t.string   "title",                               null: false
+    t.string   "playlist_uid"
+    t.string   "playlist_source", default: "youtube"
+    t.boolean  "active",          default: true,      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["playlist_uid", "playlist_source"], name: "index_playlists_on_playlist_uid_and_playlist_source", using: :btree
+  end
+
   create_table "presentations", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -58,6 +68,7 @@ ActiveRecord::Schema.define(version: 20170309152834) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "event_id"
+    t.integer  "playlist_id"
     t.index ["active"], name: "index_presentations_on_active", using: :btree
   end
 

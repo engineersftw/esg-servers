@@ -9,6 +9,7 @@ RSpec.describe Presentation, type: :model do
 
   describe '#associations' do
     it { should belong_to :event}
+    it { should belong_to :playlist}
   end
 
   describe '#needs_video?' do
