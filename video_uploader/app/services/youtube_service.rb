@@ -87,10 +87,12 @@ class YoutubeService
     body = {
         snippet: {
             title: options[:title],
-            description: options[:description]
+            description: options[:description],
+            categoryId: '28'
         },
         status: {
-            privacyStatus: 'public'
+            privacyStatus: 'public',
+            license: 'creativeCommon'
         }
     }
 

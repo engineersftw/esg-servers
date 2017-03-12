@@ -21,7 +21,7 @@ class UploadVideoWorker
         puts "Video id '#{api_response.try(:data).try(:id)}' was successfully uploaded."
 
         presentation.update(status: 'published_to_youtube', video_source: 'youtube', video_id: api_response.data.id)
-        PublishToPlaylistWorker.perform_async(presentation_id, ENV['PLAYLIST_ID'], api_response.data.id)
+        PublishToPlaylistWorker.perform_async(presentation_id)
       rescue Google::APIClient::TransmissionError => e
         puts e.result.body
         presentation.update(status: 'failed_to_publish')
