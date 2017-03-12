@@ -1,0 +1,15 @@
+= form_tag(search_events_path, method: 'get', class: 'row card grey lighten-4') do
+  .card-content
+    .col.s12.m7.input-field
+      i.material-icons.prefix.medium search
+      input id="event_search" type="text" name="search" value=@search
+      label for="event_search" Search
+    .col.s12.m3.input-field
+      i.material-icons.prefix.medium today
+      input.datepicker id="event_event_date" type="text" name="event_date" value=@event_date
+      label for="event_event_date" Event Date
+    .col.s12.m2.input-field
+      button.btn.waves-effect.waves-light[type="submit" name="action"]
+        | Search
+        i.material-icons.right
+          | send

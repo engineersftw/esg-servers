@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :admins
   root to: 'events#index'
-  resources :events, only: [:index, :destroy]
+  resources :events, only: [:index, :destroy] do
+    collection do
+      get '/search', to: 'events#search'
+    end
+  end
   resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update]
 
   if Rails.env.development?
