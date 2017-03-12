@@ -35,6 +35,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "fossasia" do |uploader|
+    uploader.vm.network "private_network", ip: "192.168.33.30"
+    uploader.vm.synced_folder "html", "/var/html"
+    uploader.vm.synced_folder "video_uploader", "/srv/apps/video_uploader"
+    uploader.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "ansible/uploader.yml"
+      ansible.install  = true
+    end
+  end
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
