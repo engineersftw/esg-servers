@@ -19,6 +19,7 @@
 
 $(document).ready(function() {
     $('.collapsible').collapsible();
+    $('select').material_select();
     $('#presentation_description').trigger('autoresize');
 
     $('.datepicker').pickadate({

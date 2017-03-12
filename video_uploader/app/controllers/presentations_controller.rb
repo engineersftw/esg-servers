@@ -1,9 +1,10 @@
 class PresentationsController < ApplicationController
   before_action :authenticate_admin!
+  before_action :fetch_playlists, only: [:new]
 
   def index
     @current_page = (params[:page] || 1).to_i
-    @presentations = Presentation.active.order('created_at ASC').page(@current_page)
+    @presentations = Presentation.active.order('created_at DESC').page(@current_page)
     @total_records = @presentations.total_count
   end
 
@@ -84,14 +85,14 @@ class PresentationsController < ApplicationController
       redirect_to presentations_path, notice: "\"#{@presentation.title}\" was updated."
     else
       flash.now[:error] = 'Unable to update this presentation: ' + @presentation.errors.messages
-      render :show
+      render :edit
     end
   end
 
   private
 
   def presentation_params
-    params.permit(:title, :description, :presented_at, :event_id)
+    params.permit(:title, :description, :presented_at, :event_id, :playlist_id)
   end
 
   def file_params
@@ -122,5 +123,9 @@ class PresentationsController < ApplicationController
 
       [save_path, md5_filename]
     end
+  end
+
+  def fetch_playlists
+    @playlists ||= Playlist.active.order('title ASC')
   end
 end

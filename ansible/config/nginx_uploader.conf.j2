@@ -78,7 +78,7 @@ http {
             upload_set_form_field $upload_field_name[content_type] "$upload_content_type";
             upload_aggregate_form_field $upload_field_name[size] "$upload_file_size";
 
-            upload_pass_form_field "^token$|^authenticity_token$|^title$|^description$|^presented_at$|^submit$|^presentation_id$|^event_id$";
+            upload_pass_form_field "^token$|^authenticity_token$|^title$|^description$|^presented_at$|^submit$|^presentation_id$|^event_id$|^playlist_id$";
             upload_cleanup 400 404 499 500-505;
         }
 

@@ -17,7 +17,7 @@ class Presentation < ApplicationRecord
      if video_source == 'youtube'
        "https://youtu.be/#{video_id}"
      elsif video_source == 'vimeo'
-       "https://vimeo.com#{video_id}"
+       "https://vimeo.com/#{video_id}"
      end
   end
 end

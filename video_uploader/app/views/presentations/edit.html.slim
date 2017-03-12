@@ -24,11 +24,21 @@
             input.datepicker id="presentation_presented_at" type="text" name="presented_at" value=@presentation.presented_at.strftime('%d %b, %Y')
             label for="presentation_presented_at" Presented at
 
-          - if @presentation.has_video_link?
-            .col.col12
-              p
-                strong Video Link:
+          .col.s12.input-field
+            p
+              strong Video Link:
+              - if @presentation.has_video_link?
                 a<(href=@presentation.video_link target="_blank")= @presentation.video_link
+              - else
+                span< None
+
+          .col.s12.input-field
+            p
+              strong Playlist Link:
+              - if @presentation.playlist && @presentation.playlist.has_playlist_link?
+                a<(href=@presentation.playlist.playlist_link target="_blank")= @presentation.playlist.title
+              - else
+                span< None
 
         .row
           .col.s12

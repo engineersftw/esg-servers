@@ -18,6 +18,10 @@
             label(for="presentation_description") Description
 
           .col.s12.input-field
+            = select_tag :playlist_id, options_from_collection_for_select(@playlists, 'id', 'title'), include_blank: true
+            label for="presentation_playlist_id" Playlist
+
+          .col.s12.input-field
             input.datepicker id="presentation_presented_at" type="text" name="presented_at" value=@presentation.presented_at.strftime('%d %b, %Y')
             label for="presentation_presented_at" Presented at
 
