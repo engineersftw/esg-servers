@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
     override.vm.box = 'ubuntu/xenial64'
   
     # Customize the amount of memory on the VM:
-    vb.memory = "4096"
+    vb.memory = "8192"
 
     if Vagrant.has_plugin?("vagrant-cachier")
       override.cache.scope = :box
@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
     provider.api_key = ENV['LINODE_API_TOKEN']
     provider.distribution = 'Ubuntu 16.04 LTS'
     provider.datacenter = 'singapore'
-    provider.plan = 'Linode 4096'
+    provider.plan = 'Linode 8192'
     provider.label = 'esg-video-uploader'
   end
   #
