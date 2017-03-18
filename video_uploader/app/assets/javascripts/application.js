@@ -27,8 +27,14 @@ $(document).ready(function() {
         selectYears: 15, // Creates a dropdown of 15 years to control year
         format: 'dd mmm, yyyy',
         formatSubmit: 'yyyy-mm-dd',
-        closeOnSelect: true,
+        closeOnSelect: true
     });
+
+    var chosen_option = {
+        no_results_text: 'No results matched',
+        width: '500px'
+    };
+    $('.chosen-select').chosen(chosen_option);
 });
 
 $(function() {
@@ -41,7 +47,7 @@ $(function() {
             $(this).find('.file-path').removeClass('invalid');
             $(this).find('.upload-btn').click(function (e) {
                 e.preventDefault();
-                $(this).addClass('disabled')
+                $(this).addClass('disabled');
                 data.submit();
             });
         },

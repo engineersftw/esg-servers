@@ -1,5 +1,7 @@
 class PresentationsController < ApplicationController
   before_action :authenticate_admin!
+  before_action :fetch_presentation, only: [:destroy, :edit, :update]
+  # before_action :fetch_esg_data, only: [:new, :edit]
   before_action :fetch_playlists, only: [:new]
 
   def index
@@ -9,21 +11,19 @@ class PresentationsController < ApplicationController
   end
 
   def new
+    @presentation = Presentation.new(
+        description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
+        presented_at: Date.today,
+        playlist_id: ENV['DEFAULT_PLAYLIST_ID']
+    )
+
     if params[:event_id].present?
       @event = Event.find(params[:event_id])
-      @presentation = Presentation.new(
-                                      event: @event,
-                                      title: @event.title,
-                                      description: @event.description,
-                                      presented_at: @event.event_date,
-                                      playlist_id: ENV['DEFAULT_PLAYLIST_ID']
-      )
-    else
-      @presentation = Presentation.new(
-          description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
-          presented_at: Date.today,
-          playlist_id: ENV['DEFAULT_PLAYLIST_ID']
-      )
+
+      @presentation.event = @event
+      @presentation.title = @event.title
+      @presentation.description = @event.description
+      @presentation.presented_at = @event.event_date
     end
   end
 
@@ -53,36 +53,16 @@ class PresentationsController < ApplicationController
   end
 
   def destroy
-    presentation = Presentation.find(params[:id])
-    presentation.update(active: false)
+    @presentation.update(active: false)
 
-    redirect_to presentations_path, notice: "\"#{presentation.title}\" was marked as hidden."
-  end
-
-  def edit
-    @presentation = Presentation.find(params[:id])
+    redirect_to presentations_path, notice: "\"#{@presentation.title}\" was marked as hidden."
   end
 
   def update
-    @presentation = Presentation.find(params[:id])
     @presentation.update(presentation_params)
 
     if @presentation.valid?
-      if (@presentation.has_video_link?)
-        begin
-          youtube_service = YoutubeService.new
-          options = {
-              id: @presentation.video_id,
-              title: @presentation.title,
-              description: @presentation.description,
-          }
-          api_response = youtube_service.update_video(options)
-
-          Rails.logger.info("Video id '#{api_response.try(:data).try(:id)}' was successfully updated.")
-        rescue => e
-          Rails.logger.error("Failed to update YouTube (#{@presentation.video_id}): #{e.message}")
-        end
-      end
+      update_youtube_details_for(@presentation) if (@presentation.has_video_link?)
 
       redirect_to presentations_path, notice: "\"#{@presentation.title}\" was updated."
     else
@@ -94,7 +74,7 @@ class PresentationsController < ApplicationController
   private
 
   def presentation_params
-    params.permit(:title, :description, :presented_at, :event_id, :playlist_id)
+    params.permit(:title, :description, :presented_at, :event_id, :playlist_id, :presenters, :organizations)
   end
 
   def file_params
@@ -127,7 +107,33 @@ class PresentationsController < ApplicationController
     end
   end
 
+  def fetch_presentation
+    @presentation ||= Presentation.find(params[:id])
+  end
+
   def fetch_playlists
     @playlists ||= Playlist.active.order('title ASC')
+  end
+
+  def fetch_esg_data
+    esg_service = EsgService.new
+    @organizations ||= esg_service.organizations
+    @presenters ||= esg_service.presenters
+  end
+
+  def update_youtube_details_for(presentation)
+    begin
+      youtube_service = YoutubeService.new
+      options = {
+          id: presentation.video_id,
+          title: presentation.title,
+          description: presentation.description,
+      }
+      api_response = youtube_service.update_video(options)
+
+      Rails.logger.info("Video id '#{api_response.try(:data).try(:id)}' was successfully updated.")
+    rescue => e
+      Rails.logger.error("Failed to update YouTube (#{presentation.video_id}): #{e.message}")
+    end
   end
 end
