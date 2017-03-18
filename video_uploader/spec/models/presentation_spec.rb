@@ -5,6 +5,7 @@ RSpec.describe Presentation, type: :model do
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:presented_at) }
+    it { should validate_length_of(:title).is_at_most(100) }
   end
 
   describe '#associations' do

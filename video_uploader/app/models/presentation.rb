@@ -1,5 +1,7 @@
 class Presentation < ApplicationRecord
   validates_presence_of :title, :description, :presented_at
+  validates_length_of :title, maximum: 100
+
   belongs_to :event, optional: true
   belongs_to :playlist, optional: true
 
