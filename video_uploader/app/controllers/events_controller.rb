@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   def index
     @current_page = (params[:page] || 1).to_i
-    @events = Event.active.includes(:presentations).order('event_date ASC').page(@current_page)
+    @events = Event.active.includes(:presentations).order('event_date ASC, title ASC').page(@current_page)
     @total_records = @events.total_count
   end
 
