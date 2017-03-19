@@ -63,7 +63,7 @@ $(function() {
             $(this).find('.upload-progress-row').hide();
         },
         fail: function (e, data) {
-            Materialize.toast('Unable to upload file.', 4000);
+            Materialize.toast(data.jqXHR.responseJSON.error, 10000);
             $(this).find('.file-path').addClass('invalid');
             $(this).find('.upload-btn').removeClass('disabled');
         },

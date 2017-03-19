@@ -35,7 +35,7 @@ class PresentationsController < ApplicationController
     end
 
     unless @presentation.valid?
-      return render json: {status: 'failed_to_save', error: @presentation.errors.messages}, status: 500
+      return render json: {status: 'failed_to_save', error: @presentation.errors.full_messages.join('. ')}, status: 500
     end
 
     if params[:file].present?
