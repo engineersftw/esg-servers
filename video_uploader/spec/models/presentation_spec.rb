@@ -6,6 +6,15 @@ RSpec.describe Presentation, type: :model do
     it { should validate_presence_of(:description) }
     it { should validate_presence_of(:presented_at) }
     it { should validate_length_of(:title).is_at_most(100) }
+    it 'does not allow < > in title' do
+      presentation = Presentation.new(title: 'Hello <>', description: 'Some content', presented_at: Time.now.to_date)
+      expect(presentation).to_not be_valid
+    end
+
+    it 'does not allow < > in description' do
+      presentation = Presentation.new(title: 'Hello', description: 'Some content < >', presented_at: Time.now.to_date)
+      expect(presentation).to_not be_valid
+    end
   end
 
   describe '#associations' do
