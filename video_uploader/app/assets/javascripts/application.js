@@ -20,6 +20,7 @@
 $(document).ready(function() {
     $('.collapsible').collapsible();
     $('select').material_select();
+    $('ul.tabs').tabs();
     $('#presentation_description').trigger('autoresize');
 
     $('.datepicker').pickadate({

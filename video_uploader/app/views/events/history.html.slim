@@ -1,14 +1,14 @@
 .row
   .col.s12
-    h3 Upcoming Events
+    h3 Past Events
 
 .row
   .col.s12
     ul.tabs.tabs-fixed-width
       li.tab.col.s4
-        a.active(href=events_path target="_self") Upcoming Events
+        a(href=events_path target="_self") Upcoming Events
       li.tab.col.s4
-        a(href=history_events_path target="_self") Past Events
+        a.active(href=history_events_path target="_self") Past Events
 
 = render partial: 'search'
 
@@ -24,12 +24,12 @@
             i.material-icons chevron_left
       - else
         li.waves-effect
-          a href=events_path(page:@current_page-1)
+          a href=history_events_path(page:@current_page-1)
             i.material-icons chevron_left
 
       - (1..@events.total_pages).each do |n|
         li class=(n==@current_page ? 'active' : 'waves-effect')
-          a(href=events_path(page:n))= n
+          a(href=history_events_path(page:n))= n
 
       - if @current_page >= @events.total_pages
         li.disabled
@@ -37,7 +37,7 @@
             i.material-icons chevron_right
       - else
         li.waves-effect
-          a href=events_path(page:@current_page+1)
+          a href=history_events_path(page:@current_page+1)
             i.material-icons chevron_right
 
 

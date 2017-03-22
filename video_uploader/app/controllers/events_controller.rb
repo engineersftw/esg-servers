@@ -3,7 +3,13 @@ class EventsController < ApplicationController
 
   def index
     @current_page = (params[:page] || 1).to_i
-    @events = Event.active.includes(:presentations).order('event_date ASC, title ASC').page(@current_page)
+    @events = Event.active.upcoming.includes(:presentations).order('event_date ASC, title ASC').page(@current_page)
+    @total_records = @events.total_count
+  end
+
+  def history
+    @current_page = (params[:page] || 1).to_i
+    @events = Event.active.past.includes(:presentations).order('event_date DESC, title ASC').page(@current_page)
     @total_records = @events.total_count
   end
 
@@ -14,7 +20,7 @@ class EventsController < ApplicationController
 
     if @search.present? || @event_date.present?
       @events = Event.active.order('event_date ASC')
-      @events = @events.where("lower(title) like :term or lower(description) like :term", {term: "%#{@search.downcase}%"}) if @search.present?
+      @events = @events.where('lower(title) like :term or lower(description) like :term', {term: "%#{@search.downcase}%"}) if @search.present?
       @events = @events.where(event_date: @event_date) if @event_date.present?
     end
   end

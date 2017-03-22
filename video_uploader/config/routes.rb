@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :events, only: [:index, :destroy] do
     collection do
       get '/search', to: 'events#search'
+      get '/history', to: 'events#history'
     end
   end
   resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update]
