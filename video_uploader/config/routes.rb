@@ -7,7 +7,11 @@ Rails.application.routes.draw do
       get '/history', to: 'events#history'
     end
   end
-  resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update]
+  resources :presentations, only: [:index, :edit, :new, :create, :destroy, :update] do
+    collection do
+      get '/search', to: 'presentations#search'
+    end
+  end
 
   if Rails.env.development?
     get 'googleauth/start', to: 'google_auth#start'

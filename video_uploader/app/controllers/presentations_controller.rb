@@ -10,6 +10,18 @@ class PresentationsController < ApplicationController
     @total_records = @presentations.total_count
   end
 
+  def search
+    @search = search_param[:search]
+    @presented_at = search_param[:presented_at]
+    @presentations = []
+
+    if @search.present? || @presented_at.present?
+      @presentations = Presentation.active.order('presented_at ASC')
+      @presentations = @presentations.where('lower(title) like :term or lower(description) like :term', {term: "%#{@search.downcase}%"}) if @search.present?
+      @presentations = @presentations.where(presented_at: @presented_at) if @presented_at.present?
+    end
+  end
+
   def new
     @presentation = Presentation.new(
         description: "Speaker: \n\nEvent Page: \n\nProduced by Engineers.SG",
@@ -79,6 +91,10 @@ class PresentationsController < ApplicationController
 
   def file_params
     params.require(:file)
+  end
+
+  def search_param
+    params.permit(:search, :presented_at)
   end
 
   def move_uploaded_file(uploaded_file={})
