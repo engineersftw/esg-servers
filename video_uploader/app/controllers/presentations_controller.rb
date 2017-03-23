@@ -16,7 +16,7 @@ class PresentationsController < ApplicationController
     @presentations = []
 
     if @search.present? || @presented_at.present?
-      @presentations = Presentation.active.order('presented_at ASC')
+      @presentations = Presentation.active.order('presented_at DESC')
       @presentations = @presentations.where('lower(title) like :term or lower(description) like :term', {term: "%#{@search.downcase}%"}) if @search.present?
       @presentations = @presentations.where(presented_at: @presented_at) if @presented_at.present?
     end

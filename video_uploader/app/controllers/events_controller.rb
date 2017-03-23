@@ -19,7 +19,7 @@ class EventsController < ApplicationController
     @events = []
 
     if @search.present? || @event_date.present?
-      @events = Event.active.order('event_date ASC')
+      @events = Event.active.order('event_date DESC')
       @events = @events.where('lower(title) like :term or lower(description) like :term', {term: "%#{@search.downcase}%"}) if @search.present?
       @events = @events.where(event_date: @event_date) if @event_date.present?
     end
