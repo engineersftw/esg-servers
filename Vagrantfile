@@ -25,6 +25,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "localdev" do |l|
+    l.vm.network "private_network", ip: "192.168.33.15"
+    l.vm.synced_folder "html", "/var/html"
+    l.vm.synced_folder "video_uploader", "/srv/apps/video_uploader"
+    l.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "ansible/uploader.yml"
+      ansible.install  = true
+    end
+  end
+
   config.vm.define "uploader" do |uploader|
     uploader.vm.network "private_network", ip: "192.168.33.20"
     uploader.vm.synced_folder "html", "/var/html"
@@ -35,11 +45,11 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "fossasia" do |uploader|
-    uploader.vm.network "private_network", ip: "192.168.33.30"
-    uploader.vm.synced_folder "html", "/var/html"
-    uploader.vm.synced_folder "video_uploader", "/srv/apps/video_uploader"
-    uploader.vm.provision "ansible_local" do |ansible|
+  config.vm.define "fossasia" do |fa|
+    fa.vm.network "private_network", ip: "192.168.33.30"
+    fa.vm.synced_folder "html", "/var/html"
+    fa.vm.synced_folder "video_uploader", "/srv/apps/video_uploader"
+    fa.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/uploader.yml"
       ansible.install  = true
     end
