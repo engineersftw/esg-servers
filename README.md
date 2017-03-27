@@ -7,7 +7,7 @@
 
 ## Additional Scripts
 
-### Create DB User
+### DB Migration
 
 ```
 sudo -u postgres createuser -d -P videouploader
@@ -39,4 +39,24 @@ RAILS_ENV=production rake scraper:run
 
 ```
 RAILS_ENV=production rake db:seed
+```
+
+## Database Management
+
+### Create DB User
+
+```
+sudo -u postgres createuser -d -P videouploader
+```
+
+### Backup Database
+
+```
+PGPASSWORD=mypassword pg_dump -Fc --no-acl --no-owner -h localhost -U videouploader videouploader > videouploader.dump
+```
+
+### Restore Database
+
+```
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U videouploader -d videouploader latest.dump
 ```
