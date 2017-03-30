@@ -134,7 +134,8 @@ class YoutubeService
             categoryId: '28',
         },
         status: {
-            license: 'creativeCommon',
+            privacyStatus: 'public',
+            license: 'creativeCommon'
         }
     }
 
