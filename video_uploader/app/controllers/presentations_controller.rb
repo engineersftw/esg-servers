@@ -33,8 +33,8 @@ class PresentationsController < ApplicationController
       @event = Event.find(params[:event_id])
 
       @presentation.event = @event
-      @presentation.title = @event.title
-      @presentation.description = @event.description
+      @presentation.title = @event.title.strip
+      @presentation.description = @event.description.strip
       @presentation.presented_at = @event.event_date
     end
   end
