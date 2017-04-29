@@ -83,7 +83,8 @@ class YoutubeService
         },
         status: {
             privacyStatus: 'public',
-            license: 'creativeCommon'
+            license: 'creativeCommon',
+            embeddable: true
         }
     }
 
@@ -135,7 +136,8 @@ class YoutubeService
         },
         status: {
             privacyStatus: 'public',
-            license: 'creativeCommon'
+            license: 'creativeCommon',
+            embeddable: true
         }
     }
 
