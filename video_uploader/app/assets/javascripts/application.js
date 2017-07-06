@@ -21,6 +21,7 @@ $(document).ready(function() {
     $('.collapsible').collapsible();
     $('select').material_select();
     $('ul.tabs').tabs();
+    $('input#presentation_title').characterCounter();
     $('#presentation_description').trigger('autoresize');
 
     $('.datepicker').pickadate({
