@@ -20,10 +20,20 @@
       - name: Replaces Nginx conf file
         template: src=config/nginx_streaming.conf.j2 dest=/opt/nginx/conf/nginx.conf
         notify: restart_nginx
+      - name: Install PHP
+        include: php7.yml
+      - name: Copy screenshot script
+        copy: src=scripts/fetchscreens.sh dest=/root/fetchscreens.sh mode=0777
+      - name: Install Tmux
+        apt: name=tmux state=present
       become: yes
       become_method: sudo
   handlers:
     - name: restart_nginx
       service: name=nginx enabled=yes state=restarted
+      become: yes
+      become_method: sudo
+    - name: restart_php_fpm
+      service: name=php7.0-fpm enabled=yes state=restarted
       become: yes
       become_method: sudo
