@@ -107,6 +107,7 @@ Vagrant.configure("2") do |config|
     override.ssh.username = 'esgadmin'
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'linode/ubuntu1404'
+    override.nfs.functional = false
 
     provider.api_key = ENV['LINODE_API_TOKEN']
     provider.distribution = 'Ubuntu 16.04 LTS'
