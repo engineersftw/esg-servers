@@ -51,7 +51,7 @@
         cron:
           name: Events update
           minute: "0,30"
-          job: ". /root/.bashrc && cd {{ app_root }} && RAILS_ENV=production rake scraper:run"
+          job: "source /root/.bashrc && cd {{ app_root }} && RAILS_ENV=production rake scraper:run"
       become: yes
       become_method: sudo
   handlers:
