@@ -113,7 +113,7 @@ Vagrant.configure("2") do |config|
     provider.distribution = 'Ubuntu 16.04 LTS'
     provider.datacenter = 'singapore'
     provider.plan = 'Linode 8192'
-    provider.label = 'esg-video-uploader'
+    # provider.label = 'esg-video-uploader'
   end
   #
   # View the documentation for the provider you are using for more
