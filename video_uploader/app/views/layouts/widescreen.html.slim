@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title Engineers.SG - Screenshot as a Service
+    = csrf_meta_tags
+    link[href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"]
+    link[rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css"]
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    = stylesheet_link_tag 'application', media: 'all'
+  body
+    nav.blue.darken-2
+      .nav-wrapper
+        a.brand-logo.center[href="/"] Engineers.SG
+
+    .row
+      .col.s12.offset-l1.l10
+        - if notice.present?
+          .card.yellow.lighten-3
+            .card-content.valign-wrapper
+              i.material-icons.small info_outline
+              p.valign.notice=< notice
+        - if alert.present?
+          .card.red.lighten-4
+            .card-content.valign-wrapper
+              i.material-icons.small error_outline
+              p.valign.alert=< alert
+    .row
+      .col.s12
+        == yield
+
+    = javascript_include_tag 'application'
+    script[src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"]
