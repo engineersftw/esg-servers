@@ -22,10 +22,16 @@
         service: name=nginx enabled=yes state=started
       - name: Install PHP
         include: php7.yml
-      - name: Copy screenshot script
-        copy: src=scripts/fetchscreens.sh dest=/root/fetchscreens.sh mode=0777
       - name: Install Tmux
         apt: name=tmux state=present
+      - name: Prepare HTML folder
+        copy: src=../html dest=/var/
+      - name: Prepares recorded folders
+        file: dest={{ item }} state=directory mode=0777
+        with_items:
+          - "/video_recordings"
+          - "/vod_videos"
+          - "/var/html/screenshots"
       become: yes
       become_method: sudo
   handlers:

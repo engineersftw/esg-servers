@@ -84,10 +84,24 @@ rtmp {
     # chunk_size 4096;
 
     application live {
-      live on;
-      record off;
-      # push rtmp://a.rtmp.youtube.com/live2 app=live2 playpath={{ youtube_stream_key }};
-      # exec ffmpeg -re -i "rtmp://localhost/live/$name" -acodec libmp3lame -ar 44100 -b:a 128k -pix_fmt yuv420p -profile:v baseline -s 426x240 -bufsize 6000k -vb 400k -maxrate 1500k -deinterlace -vcodec libx264 -preset veryfast -g 30 -r 30 -f flv "rtmp://rtmp-api.facebook.com:80/rtmp/{{ facebook_live_stream_key }}";
+        live on;
+
+        on_publish http://localhost/recording_start.php;
+
+        recorder main {
+            record all;
+            record_path /video_recordings;
+            record_suffix _recorded.mp4;
+            record_unique on;
+
+            record_notify on;
+            on_record_done http://localhost/recorded.php;
+        }
+
+        # push rtmp://a.rtmp.youtube.com/live2 app=live2 playpath={{ youtube_stream_key }};
+        # exec ffmpeg -re -i "rtmp://localhost/live/$name" -acodec libmp3lame -ar 44100 -b:a 128k -pix_fmt yuv420p -profile:v baseline -s 426x240 -bufsize 6000k -vb 400k -maxrate 1500k -deinterlace -vcodec libx264 -preset veryfast -g 30 -r 30 -f flv "rtmp://rtmp-api.facebook.com:80/rtmp/{{ facebook_live_stream_key }}";
+        # exec ffmpeg -i "rtmp://localhost/live/$name" -f image2 -vf fps=1/5 "/screenshots/$name-snapshot%05d.jpg";
+        exec ffmpeg -i "rtmp://localhost/live/$name" -f image2 -vf fps=1/5 -strftime 1 "/var/html/screenshots/$name-snapshot-%Y%m%d-%s.jpg";
     }
   }
 }

@@ -19,8 +19,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "streaming" do |streaming|
     streaming.vm.network "private_network", ip: "192.168.33.10"
-    streaming.vm.synced_folder "html", "/var/html"
-    streaming.vm.synced_folder "screenshots", "/var/html/screenshots"
     streaming.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "ansible/streaming.yml"
       ansible.install  = true
@@ -90,7 +88,7 @@ Vagrant.configure("2") do |config|
     # Display the VirtualBox GUI when booting the machine
     # vb.gui = true
     override.vm.box = 'ubuntu/xenial64'
-  
+
     # Customize the amount of memory on the VM:
     vb.memory = "8192"
 
