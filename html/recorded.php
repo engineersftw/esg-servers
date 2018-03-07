@@ -19,7 +19,7 @@ Array
 
 function notify_remote($forwarding_post)
 {
-    $push_url = ($_SERVER['PUSH_ADDR'] ? $_SERVER['PUSH_ADDR'] : 'http://192.168.33.15/api/recordings');
+    $push_url = ($_SERVER['PUSH_ADDR'] ? $_SERVER['PUSH_ADDR'] : 'http://192.168.33.1:3000/api/recordings');
     $ch = curl_init($push_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $forwarding_post);
@@ -45,7 +45,7 @@ $new_file_name = uniqid('', true) . '.' . $ext;
 
 rename($current_path, '/vod_videos/' . $new_file_name);
 
-$allowed_keys = ['app', 'recorder', 'call', 'addr', 'name'];
+$allowed_keys = ['call', 'addr', 'clientid', 'name'];
 $forwarding_post = array_intersect_key($nginx_params, array_flip($allowed_keys));
 $forwarding_post['path'] = $new_file_name;
 
@@ -53,7 +53,7 @@ list($timestamp) = sscanf($current_path, "/video_recordings/$stream_key-%d_recor
 $forwarding_post['start_time'] = $timestamp;
 $forwarding_post['end_time'] = strftime('%s');
 
-// $response = notify_remote($forwarding_post);
+$response = notify_remote($forwarding_post);
 
 // do anything you want with your response
 file_put_contents('/tmp/recordings.log', print_r($forwarding_post, true), FILE_APPEND);

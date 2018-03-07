@@ -4,6 +4,7 @@
   with_items:
     - php-fpm
     - php-gd
+    - php-curl
 - name: Patch php-fpm config (1)
   lineinfile: dest=/etc/php/7.0/fpm/pool.d/www.conf regexp='^listen = \/run\/php\/php7\.0-fpm\.sock' state=absent
 - name: Patch php-fpm config (2)
