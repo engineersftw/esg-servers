@@ -2,17 +2,19 @@ require 'faraday'
 
 class FossasiaScraperService
   def scrape
-    response = Faraday.get 'http://2017.fossasia.org/json/sessions'
-    sessions = JSON.parse(response.body, symbolize_names: true)
+    cal_file = File.open( Rails.root.join('app', 'services', 'FOSSASIA Summit.ics') )
 
-    sessions.reject!{ |session| ['Breaks','Exhibition'].include?(session[:track].try(:[], :name)) }
+    cals = Icalendar::Calendar.parse(cal_file)
+    cal = cals.first
 
-    sessions.collect do |session|
-      event = Event.where(foreign_uid: "#{session[:id]}", source: 'fossasia').first_or_initialize
+    # sessions.reject!{ |session| ['Breaks','Exhibition'].include?(session[:track].try(:[], :name)) }
 
-      event.title = "#{session[:title]} - FOSSASIA 2017"
+    cal.events.collect do |session|
+      event = Event.where(foreign_uid: "#{session.uid}", source: 'fossasia').first_or_initialize
+
+      event.title = "#{session.summary} - FOSSASIA 2018"
       event.description = build_description(session)
-      event.event_date = session[:start_time]
+      event.event_date = session.dtstart
 
       event
     end
@@ -21,19 +23,17 @@ class FossasiaScraperService
   private
 
   def build_description(payload)
-    speakers = payload[:speakers].map do |speaker|
-      "#{speaker[:name]} (#{speaker[:city]})#{speaker[:organization].present? ? ', '+speaker[:organization] : ''}"
-      end.join("\n")
+    description = payload.description
+    description = description.join("") if description.class == Icalendar::Values::Array
 
     <<-TEXT
-Speaker(s): #{speakers}
+Speaker: 
 
-Abstract:
-#{sanitize_html(payload[:short_abstract])}
+#{sanitize_html(description)}
 
-(Type: #{payload[:session_type].try(:[], :name)} | Track: #{payload[:track].try(:[], :name)} | Room: #{payload[:microlocation].try(:[], :name)})
+(Type:  | Track:  | Room: #{payload.location})
 
-Event Page: http://2017.fossasia.org
+Event Page: http://2018.fossasia.org
 
 Produced by Engineers.SG
     TEXT

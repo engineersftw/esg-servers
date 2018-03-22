@@ -112,6 +112,7 @@ GEM
     hashdiff (0.3.2)
     httpclient (2.8.3)
     i18n (0.8.1)
+    icalendar (2.4.1)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
@@ -323,6 +324,7 @@ DEPENDENCIES
   dotenv-rails
   google-api-client (~> 0.8.0)
   httpclient
+  icalendar
   jbuilder (~> 2.5)
   jquery-rails
   kaminari
