@@ -2,7 +2,7 @@ require 'faraday'
 
 class FossasiaScraperService
   def scrape
-    cal_file = File.open( Rails.root.join('app', 'services', 'FOSSASIA Summit.ics') )
+    cal_file = File.open( Rails.root.join('app', 'services', 'FOSSASIA_Summit.ics') )
 
     cals = Icalendar::Calendar.parse(cal_file)
     cal = cals.first
@@ -27,7 +27,7 @@ class FossasiaScraperService
     description = description.join("") if description.class == Icalendar::Values::Array
 
     <<-TEXT
-Speaker: 
+Speaker:
 
 #{sanitize_html(description)}
 

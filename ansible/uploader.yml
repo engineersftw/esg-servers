@@ -50,7 +50,7 @@
       - name: Add Cronjob
         cron:
           name: Events update
-          minute: "0,30"
+          minute: "*/5"
           job: "source /root/.bashrc && cd {{ app_root }} && RAILS_ENV=production rake scraper:run"
       become: yes
       become_method: sudo

@@ -5,7 +5,7 @@ namespace :scraper do
     Rake::Task[default_task].invoke
   end
 
-  desc 'FOSSASIA 2017 Sessions'
+  desc 'FOSSASIA 2018 Sessions'
   task fossasia: :environment do
     presentations = FossasiaScraperService.new.scrape
     puts "Found #{presentations.count} presentations:"

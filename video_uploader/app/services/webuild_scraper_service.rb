@@ -20,13 +20,14 @@ class WebuildScraperService
 
   def build_description(payload)
     <<-TEXT
-Speaker: 
+Speaker:
 
 #{payload[:description]}
 
 Event Page: #{payload[:url]}
 
 Produced by Engineers.SG
+Recorded by:
     TEXT
   end
 end
