@@ -2,7 +2,7 @@ require 'faraday'
 
 class WebuildScraperService
   def scrape
-    response = Faraday.get 'https://webuild.sg/api/v1/events'
+    response = Faraday.get ENV['WEBUILDSG_EVENT_URL'] || 'https://webuild.sg/api/v1/events'
     sessions = JSON.parse(response.body, symbolize_names: true)
 
     sessions[:events].collect do |session|
