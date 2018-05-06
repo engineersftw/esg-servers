@@ -53,6 +53,7 @@ http {
         passenger_env_var DB_NAME {{ db_name }};
         passenger_env_var DB_USERNAME {{ db_username }};
         passenger_env_var DB_PASSWORD {{ db_password }};
+        passenger_env_var WEBUILDSG_EVENT_URL http://api-webuild.7e14.starter-us-west-2.openshiftapps.com/events;
 
         #charset koi8-r;
 
