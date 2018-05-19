@@ -106,11 +106,12 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'linode/ubuntu1404'
     override.nfs.functional = false
+    override.vm.allowed_synced_folder_types = :rsync
 
     provider.api_key = ENV['LINODE_API_TOKEN']
     provider.distribution = 'Ubuntu 16.04 LTS'
     provider.datacenter = 'singapore'
-    provider.plan = 'Linode 8192'
+    provider.plan = 'Linode 8GB'
     # provider.label = 'esg-video-uploader'
   end
   #
