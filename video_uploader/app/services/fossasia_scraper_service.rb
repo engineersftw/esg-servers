@@ -2,15 +2,13 @@ require 'faraday'
 
 class FossasiaScraperService
   def scrape
-    response = Faraday.get 'http://2017.fossasia.org/json/sessions'
+    response = Faraday.get 'https://2019.fossasia.org/event/json/sessions'
     sessions = JSON.parse(response.body, symbolize_names: true)
-
-    sessions.reject!{ |session| ['Breaks','Exhibition'].include?(session[:track].try(:[], :name)) }
 
     sessions.collect do |session|
       event = Event.where(foreign_uid: "#{session[:id]}", source: 'fossasia').first_or_initialize
 
-      event.title = "#{session[:title]} - FOSSASIA 2017"
+      event.title = "#{session[:title]} - FOSSASIA 2019"
       event.description = build_description(session)
       event.event_date = session[:start_time]
 
@@ -33,9 +31,7 @@ Abstract:
 
 (Type: #{payload[:session_type].try(:[], :name)} | Track: #{payload[:track].try(:[], :name)} | Room: #{payload[:microlocation].try(:[], :name)})
 
-Event Page: http://2017.fossasia.org
-
-Produced by Engineers.SG
+Event Page: https://2019.fossasia.org
     TEXT
   end
 

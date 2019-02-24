@@ -5,35 +5,37 @@ RSpec.describe FossasiaScraperService do
     before do
       sessions_file = File.join(Rails.root, 'spec', 'fixtures', 'fossasia', 'sessions')
       sessions_json = File.read(sessions_file)
-      stub_request(:get, 'http://2017.fossasia.org/json/sessions').to_return(body: sessions_json)
+      stub_request(:get, 'https://2019.fossasia.org/event/json/sessions').to_return(body: sessions_json)
     end
 
     it 'fetches the events' do
       events = subject.scrape
 
-      expect(events.count).to eq 201
+      expect(events.count).to eq 277
       event = events.first
 
       expect(event).to be_a Event
-      expect(event.title).to eq 'Migrating Legacy Backends to Serverless in Parallel - FOSSASIA 2017'
+      expect(event.title).to eq 'Lightning Talk: Update from the BorgBackup Project - FOSSASIA 2019'
 
       expected_description = <<-TEXT
-Speaker(s): Rumesh Eranga Hapuarachchi (Colombo)
+Speaker(s): Manuel Riel ()
 
 Abstract:
-Like many developers, we had to deal with a back-end written in Ruby 1.8 and we discovered the awesomeness of Serverless. Migrating entire back-end at once is not a piece of cake but the capabilities of Serverless computing allowed us to migrate back-end from Ruby to AWS Lambda functions. We encountered lot of pitfalls along the journey and in this session I am planning to share my experiences on migrating legacy back-ends to Serverless and how to plan parallel migrations avoiding long waiting release cycles.
+A very short introduction to the open source BorgBackup.
 
-(Type: Talk | Track: DevOps | Room: Dalton)
+What it can do for you, how you can use it and where we are heading.
 
-Event Page: http://2017.fossasia.org
+Based on the lightning talk given by Thomas Waldmann on 35c3. https://youtu.be/y24_QQjbHFA?t=2627
 
-Produced by Engineers.SG
+(Type: Talk | Track: Cloud, Containers, DevOps | Room: )
+
+Event Page: https://2019.fossasia.org
       TEXT
       expect(event.description).to eq expected_description
       expect(event.source).to eq 'fossasia'
-      expect(event.foreign_uid).to eq '3027'
+      expect(event.foreign_uid).to eq '5163'
       expect(event.status).to eq 'pending'
-      expect(event.event_date).to eq Date.parse('2017-03-19')
+      expect(event.event_date).to eq Date.parse('2019-03-14')
     end
   end
 end
