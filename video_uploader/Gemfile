@@ -47,7 +47,6 @@ gem 'devise'
 gem 'kaminari'
 gem 'redis-rails'
 gem 'react-rails'
-gem 'icalendar'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
