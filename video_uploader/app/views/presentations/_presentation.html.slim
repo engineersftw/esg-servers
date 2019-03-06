@@ -15,6 +15,11 @@
           strong Video Link:
           a<(href=presentation.video_link target="_blank")= presentation.video_link
 
+      - if presentation.uploaded_file.present? && presentation.status != 'cleaned'
+        p
+          strong Upload Hash:
+          =< presentation.uploaded_file
+
       ul.collapsible(data-collapsible="accordion")
         li
           .collapsible-header
