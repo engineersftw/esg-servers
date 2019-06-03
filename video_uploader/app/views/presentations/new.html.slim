@@ -9,14 +9,13 @@
         input(type="hidden" name="event_id" value=@presentation.event_id)
         .row
           .col.s12.input-field
-            input id="presentation_title" type="text" name="title" class="validate" data-length="100" value=@presentation.title
+            input id="presentation_title" type="text" name="title" class="presentation-validate-content" data-length="100" value=@presentation.title
             label for="presentation_title" Title
 
           .col.s12.input-field
-            textarea.materialize-textarea(id="presentation_description" name="description")
+            textarea.materialize-textarea.presentation-validate-content(id="presentation_description" name="description")
               =@presentation.description
             label(for="presentation_description") Description
-
           .col.s12.input-field
             = select_tag :playlist_id, options_from_collection_for_select(@playlists, 'id', 'title', @presentation.playlist_id), id: 'presentation_playlist_id'
             label for="presentation_playlist_id" Playlist
@@ -30,7 +29,7 @@
             .file-field.input-field
               .btn
                 span Video File
-              input(type="file" name="file")
+              input#presentation-file-field(type="file" name="file")
 
               .file-path-wrapper
                 input.file-path.validate(type="text")
