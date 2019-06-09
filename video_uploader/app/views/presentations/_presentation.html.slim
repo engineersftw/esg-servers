@@ -9,6 +9,9 @@
       p
         strong Date:
         =<>presentation.presented_at.strftime('%d %b, %Y')
+      p
+        strong ID:
+        =presentation.id
 
       - if presentation.has_video_link?
         p

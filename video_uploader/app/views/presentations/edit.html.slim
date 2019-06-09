@@ -32,6 +32,11 @@
               - else
                 span< None
 
+            - if @presentation.uploaded_file.present? && @presentation.status != 'cleaned'
+              p
+                strong Upload Hash:
+                =< @presentation.uploaded_file
+
           .col.s12.input-field
             p
               strong Playlist Link:
