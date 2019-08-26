@@ -21,6 +21,16 @@
 //= require lodash.core
 //= require_tree .
 
+function enableUploadLink(){
+    var invalidInputs = $(".presentation-validate-content.invalid").length;
+    var fileField = $("#presentation-file-field");
+
+    if (invalidInputs == 0 && (fileField.length == 0 || fileField.val().length > 0))
+        $("form#presentation .upload-btn").removeClass('disabled')
+    else
+        $("form#presentation .upload-btn").addClass('disabled')
+}
+
 $(document).ready(function() {
     $('.collapsible').collapsible();
     $('select').material_select();
@@ -44,12 +54,25 @@ $(document).ready(function() {
 });
 
 $(function() {
+    $('form#presentation').on("change", ".presentation-validate-content", function() {
+        var field = $(this);
+
+        console.log(field.val());
+        if (field.val().match(/<|>/) != null)
+            field.addClass("invalid");
+        else
+            field.removeClass("invalid");
+
+        enableUploadLink();
+    });
+
+    $(".presentation-validate-content").change();
     $('.presentation_upload_form').fileupload({
         dataType: 'json',
         replaceFileInput: false,
         url: $('.presentation_upload_form').attr('action'),
         add: function (e, data) {
-            $(this).find('.upload-btn').removeClass('disabled');
+            enableUploadLink();
             $(this).find('.file-path').removeClass('invalid');
             $(this).find('.upload-btn').click(function (e) {
                 e.preventDefault();
